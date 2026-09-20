@@ -87,6 +87,9 @@ export async function POST(req: Request) {
 
     if (isSupabaseConfigured()) {
       try {
+        const { createClient } = await import("@supabase/supabase-js");
+        const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+        
         const { id: themeIdentifier, ...themeData } = theme;
         // Pastikan menyimpan dengan id: 1 untuk Supabase, dan theme_id untuk string identifier
         const { error } = await sb.from("site_theme").upsert({ 
