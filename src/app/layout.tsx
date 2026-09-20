@@ -17,9 +17,9 @@ const outfit = Outfit({
 });
 
 const DEFAULT_META = {
-  title: "RAJA DIGITAL — Top-Up Royal Dream",
+  title: "LEGEND STORE — Top-Up Royal Dream",
   description: "Platform top-up game terpercaya. Top-up Diamond & Koin Royal Dream dengan harga terbaik, proses cepat, dan layanan 24 jam.",
-  keywords: "raja digital, top up royal dream, diamond royal dream, koin royal dream, top up game murah",
+  keywords: "legend store, legendstore, top up royal dream, diamond royal dream, koin royal dream, top up game murah",
 };
 
 async function fetchSiteSettings() {
@@ -80,7 +80,8 @@ export default async function RootLayout({
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${inter.variable} ${outfit.variable}`}
+      className={`dark ${inter.variable} ${outfit.variable}`}
+      style={{ colorScheme: "dark" }}
     >
       <head>
         {/* Google Analytics */}

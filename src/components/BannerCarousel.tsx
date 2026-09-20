@@ -155,113 +155,113 @@ export default function BannerCarousel({ initialBanners }: Props) {
 
           {/*
            * Layer 2: Foreground image — object-cover agar mengisi penuh container.
-           *   object-position center memastikan subjek utama di tengah tetap terlihat.
-           *   Blur background sudah mengisi gap jika ada.
+           * Parallax effect: image smoothly zooms in while active.
            */}
           <Image
             src={banner.image_url}
             alt={banner.title}
             fill
             className="object-cover"
-            style={{ objectPosition: "center center" }}
+            style={{ 
+              objectPosition: "center center",
+              transform: isAnimating ? "scale(1)" : "scale(1.05)",
+              transition: "transform 6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+              willChange: "transform"
+            }}
             sizes="100vw"
             priority
           />
 
           {/*
-           * Layer 3: Gradient + teks — hanya jika show_title aktif.
-           *   show_title=null  (kolom belum ada)  → default true (judul tampil)
-           *   show_title=true  → judul tampil
-           *   show_title=false → judul disembunyikan, gambar tampil bersih
+           * Layer 3: Glassmorphism Card + teks
            */}
           {(banner.show_title ?? true) && (
             <>
-              {/* Gradient kiri untuk keterbacaan teks */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(90deg, rgba(5,3,20,0.88) 0%, rgba(5,3,20,0.60) 38%, rgba(5,3,20,0.15) 65%, transparent 100%)",
-                }}
-              />
-              {/* Gradient bawah untuk mobile */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(to top, rgba(5,3,20,0.70) 0%, transparent 40%)",
-                }}
-              />
-              {/* Aksen warna */}
+              {/* Overlay gradient tipis untuk memastikan card selalu terbaca meskipun background terang */}
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background:
-                    "radial-gradient(ellipse at 15% 50%, rgba(124,58,237,0.15) 0%, transparent 55%)",
+                  background: "linear-gradient(90deg, rgba(10,10,20,0.6) 0%, transparent 60%)",
                 }}
               />
 
-              {/* Teks konten */}
+              {/* Teks konten dalam Glassmorphism Card */}
               <div
-                className="banner-content absolute inset-0 flex flex-col justify-end md:justify-center"
-                style={{ padding: "clamp(16px, 4vw, 56px)" }}
+                className="banner-content absolute inset-y-0 left-0 flex flex-col justify-end pb-8 sm:pb-0 sm:justify-center px-4 sm:px-10 lg:px-16 w-full sm:w-[65%] lg:w-[50%]"
+                style={{ zIndex: 10 }}
               >
-                {banner.badge_text && (
-                  <div
-                    className="inline-flex items-center gap-1.5 w-fit text-xs font-bold px-3 py-1 rounded-full mb-2"
-                    style={{
-                      background: "rgba(251,191,36,0.2)",
-                      border: "1px solid rgba(251,191,36,0.45)",
-                      color: "#fbbf24",
-                      backdropFilter: "blur(8px)",
-                    }}
-                  >
-                    {banner.badge_text}
-                  </div>
-                )}
-
-                <h2
-                  className="font-black leading-tight mb-2"
+                <div 
+                  className="rounded-3xl border p-5 sm:p-8"
                   style={{
-                    color: "#ffffff",
-                    fontFamily: "var(--font-outfit)",
-                    fontSize: "clamp(1rem, 3.5vw, 2.4rem)",
-                    maxWidth: "min(60%, 620px)",
-                    textShadow: "0 2px 16px rgba(0,0,0,0.6)",
+                    background: "linear-gradient(135deg, rgba(20,20,30,0.6) 0%, rgba(10,10,20,0.85) 100%)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
+                    borderColor: "rgba(200, 150, 26, 0.25)",
+                    boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)",
+                    transform: isAnimating ? "translateY(20px)" : "translateY(0)",
+                    opacity: isAnimating ? 0 : 1,
+                    transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.6s ease 0.1s",
                   }}
                 >
-                  {banner.title}
-                </h2>
+                  {banner.badge_text && (
+                    <div
+                      className="inline-flex items-center gap-1.5 w-fit text-xs font-bold px-3 py-1 rounded-full mb-3"
+                      style={{
+                        background: "rgba(200,150,26,0.15)",
+                        border: "1px solid rgba(200,150,26,0.4)",
+                        color: "#f5c842",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                      }}
+                    >
+                      {banner.badge_text}
+                    </div>
+                  )}
 
-                {banner.subtitle && (
-                  <p
-                    className="hidden sm:block"
+                  <h2
+                    className="font-black leading-tight mb-3"
                     style={{
-                      color: "#cbd5e1",
-                      fontSize: "clamp(0.7rem, 1.6vw, 1rem)",
-                      maxWidth: "min(55%, 540px)",
-                      lineHeight: 1.55,
-                      marginBottom: "clamp(8px, 1.5vw, 16px)",
+                      color: "#ffffff",
+                      fontFamily: "var(--font-outfit)",
+                      fontSize: "clamp(1.5rem, 4vw, 3rem)",
+                      textShadow: "0 2px 20px rgba(200,150,26,0.2)",
                     }}
                   >
-                    {banner.subtitle}
-                  </p>
-                )}
+                    {banner.title}
+                  </h2>
 
-                {banner.link_url && banner.link_label && (
-                  <Link
-                    href={banner.link_url}
-                    className="btn-gold inline-flex items-center gap-1.5 w-fit"
-                    style={{
-                      fontSize: "clamp(0.65rem, 1.5vw, 0.875rem)",
-                      padding: "clamp(7px, 1.2vw, 11px) clamp(12px, 2vw, 22px)",
-                      borderRadius: 10,
-                    }}
-                  >
-                    <Zap size={13} />
-                    {banner.link_label}
-                  </Link>
-                )}
+                  {banner.subtitle && (
+                    <p
+                      className="hidden sm:block"
+                      style={{
+                        color: "rgba(255,255,255,0.7)",
+                        fontSize: "clamp(0.85rem, 1.6vw, 1.1rem)",
+                        lineHeight: 1.6,
+                        marginBottom: "24px",
+                      }}
+                    >
+                      {banner.subtitle}
+                    </p>
+                  )}
+
+                  {banner.link_url && banner.link_label && (
+                    <Link
+                      href={banner.link_url}
+                      className="inline-flex items-center gap-2 font-bold transition-all hover:scale-105 active:scale-95"
+                      style={{
+                        fontSize: "clamp(0.8rem, 1.5vw, 1rem)",
+                        padding: "12px 28px",
+                        borderRadius: "14px",
+                        background: "linear-gradient(135deg, rgba(200,150,26,1), rgba(212,120,13,1))",
+                        color: "#111",
+                        boxShadow: "0 8px 25px rgba(200,150,26,0.4)",
+                      }}
+                    >
+                      <Zap size={16} />
+                      {banner.link_label}
+                    </Link>
+                  )}
+                </div>
               </div>
             </>
           )}

@@ -419,8 +419,13 @@ export default function AdminProductsPage() {
             style={filterGame === g.name
               ? { background: `${g.color}18`, border: `2px solid ${g.color}60` }
               : { background: "var(--bg-secondary)", border: "2px solid var(--border)" }}>
-            <div className="relative w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
-              <Image src={g.cover} alt={g.name} fill className="object-cover" sizes="32px" />
+            <div className="relative w-8 h-8 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center" style={{ background: "rgba(255,255,255,0.05)" }}>
+              {g.cover ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={g.cover} alt={g.name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }} />
+              ) : (
+                <span>🎮</span>
+              )}
             </div>
             <div className="text-left overflow-hidden">
               <div className="text-xs font-bold truncate" style={{ color: filterGame === g.name ? g.color : "var(--text-primary)" }}>{g.name}</div>

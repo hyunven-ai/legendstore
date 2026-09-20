@@ -19,8 +19,8 @@ export default function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <Image
-                src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778049885/logo-raja-digital-webp_hwu82q.webp"
-                alt="RAJA DIGITAL"
+                src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1789888684/logo-crop_wgthak.webp"
+                alt="LEGEND STORE"
                 width={160}
                 height={56}
                 className="object-contain"
@@ -28,7 +28,7 @@ export default function Footer() {
               />
             </div>
             <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--text-secondary)" }}>
-              RajaDigital hadir sebagai partner terpercaya para gamers Indonesia untuk mendapatkan layanan top up tercepat, termurah, dan paling aman. Nikmati proses instan hitungan detik untuk Royal Dream, Higgs Domino, Higgs Games Island, dan berbagai game populer lainnya dengan sistem otomatis 24 jam nonstop.
+              Legend Store hadir sebagai partner terpercaya para gamers Indonesia untuk mendapatkan layanan top up tercepat, termurah, dan paling aman. Nikmati proses instan hitungan detik untuk Royal Dream, Higgs Domino, Higgs Games Island, dan berbagai game populer lainnya dengan sistem otomatis 24 jam nonstop.
             </p>
 
             {/* Features */}
@@ -127,7 +127,7 @@ export default function Footer() {
           style={{ borderTop: "1px solid var(--border)" }}
         >
           <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-            © {currentYear} RAJA DIGITAL. All rights reserved.
+            © {currentYear} LEGEND STORE. All rights reserved.
           </p>
           <p className="text-xs" style={{ color: "var(--text-muted)" }}>
             Built with ❤️ untuk komunitas Royal Dream Indonesia

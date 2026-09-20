@@ -3,7 +3,7 @@ import { updateTransactionStatus, createServerSupabase } from "@/lib/supabase";
 import { jwtVerify } from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET ?? "rajadigital-secret-change-in-production"
+  process.env.JWT_SECRET ?? "legendstore-secret-change-in-production"
 );
 
 type Params = { params: Promise<{ id: string }> };
@@ -67,7 +67,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
       return NextResponse.json({ error: "Hanya superadmin yang dapat menghapus transaksi" }, { status: 403 });
     }
 
-    const db    = createServerSupabase();
+    const db = createServerSupabase();
 
     // Ambil data transaksi sebelum dihapus (untuk log)
     const { data: tx, error: fetchErr } = await db
@@ -86,18 +86,18 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 
     // Log activity (jangan blok response jika gagal)
     const { error: logErr } = await db.from("activity_logs").insert({
-      admin_id:       admin.id ?? null,
+      admin_id: admin.id ?? null,
       admin_username: admin.username,
-      action:         "DELETE_TRANSACTION",
-      details:        JSON.stringify({
-        transaction_id:  id,
-        invoice_id:      tx.invoice_id,
-        game_id:         tx.game_id,
-        product_name:    tx.product_name,
-        product_price:   tx.product_price,
-        status:          tx.status,
-        whatsapp:        tx.whatsapp,
-        deleted_at:      new Date().toISOString(),
+      action: "DELETE_TRANSACTION",
+      details: JSON.stringify({
+        transaction_id: id,
+        invoice_id: tx.invoice_id,
+        game_id: tx.game_id,
+        product_name: tx.product_name,
+        product_price: tx.product_price,
+        status: tx.status,
+        whatsapp: tx.whatsapp,
+        deleted_at: new Date().toISOString(),
       }),
     });
     if (logErr) console.error("⚠️ Log activity gagal:", logErr.message);

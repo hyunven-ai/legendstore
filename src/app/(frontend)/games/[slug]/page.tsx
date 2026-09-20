@@ -21,7 +21,7 @@ const IMG_VERSION = Date.now();
 
 export default function GamePage() {
   const params = useParams();
-  const slug   = params?.slug as string;
+  const slug = params?.slug as string;
   const { game, loading: gameLoading } = useGame(slug);
 
   // Redirect jika game tidak ditemukan (setelah loading selesai)
@@ -29,27 +29,27 @@ export default function GamePage() {
     if (!gameLoading && !game) notFound();
   }, [game, gameLoading]);
 
-  const [products,        setProducts]        = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
-  const [activeCategory,  setActiveCategory]  = useState<string>("__all__"); // default: tampilkan semua paket
+  const [activeCategory, setActiveCategory] = useState<string>("__all__"); // default: tampilkan semua paket
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [specialValues,   setSpecialValues]   = useState<Record<string, number>>({});
-  const [gameId,          setGameId]          = useState("");
-  const [username,        setUsername]        = useState("");
-  const [whatsapp,        setWhatsapp]        = useState("");
-  const [modalOpen,       setModalOpen]       = useState(false);
-  const [isSubmitting,    setIsSubmitting]    = useState(false);
-  const [showOrder,       setShowOrder]       = useState(false);
+  const [specialValues, setSpecialValues] = useState<Record<string, number>>({});
+  const [gameId, setGameId] = useState("");
+  const [username, setUsername] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showOrder, setShowOrder] = useState(false);
   const [successInvoiceId, setSuccessInvoiceId] = useState<string | null>(null);
-  const [viewMode,         setViewMode]         = useState<"grid" | "list">("grid");
-  const [incompletePopup,  setIncompletePopup]  = useState(false); // popup "Data Tidak Lengkap"
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [incompletePopup, setIncompletePopup] = useState(false); // popup "Data Tidak Lengkap"
 
   // Load cached form data on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const cachedGameId = localStorage.getItem("rajadigital_topup_game_id");
-      const cachedUsername = localStorage.getItem("rajadigital_topup_username");
-      const cachedWhatsapp = localStorage.getItem("rajadigital_topup_whatsapp");
+      const cachedGameId = localStorage.getItem("legendstore_topup_game_id");
+      const cachedUsername = localStorage.getItem("legendstore_topup_username");
+      const cachedWhatsapp = localStorage.getItem("legendstore_topup_whatsapp");
       if (cachedGameId) setGameId(cachedGameId);
       if (cachedUsername) setUsername(cachedUsername);
       if (cachedWhatsapp) setWhatsapp(cachedWhatsapp);
@@ -59,9 +59,9 @@ export default function GamePage() {
   // Save to localStorage when values change
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (gameId) localStorage.setItem("rajadigital_topup_game_id", gameId);
-      if (username) localStorage.setItem("rajadigital_topup_username", username);
-      if (whatsapp) localStorage.setItem("rajadigital_topup_whatsapp", whatsapp);
+      if (gameId) localStorage.setItem("legendstore_topup_game_id", gameId);
+      if (username) localStorage.setItem("legendstore_topup_username", username);
+      if (whatsapp) localStorage.setItem("legendstore_topup_whatsapp", whatsapp);
     }
   }, [gameId, username, whatsapp]);
   // pageStep: 2 = Pilih Paket, 3 = Isi Formulir
@@ -73,7 +73,7 @@ export default function GamePage() {
     if (!game) return;
     setLoadingProducts(true);
     try {
-      const res  = await fetch(`/api/products?game=${encodeURIComponent(game.name)}`, { cache: "no-store" });
+      const res = await fetch(`/api/products?game=${encodeURIComponent(game.name)}`, { cache: "no-store" });
       const data = await res.json();
       // Sort by price ascending (cheapest first)
       const list: Product[] = (data.products ?? []).sort((a: Product, b: Product) => (a.price ?? 0) - (b.price ?? 0));
@@ -104,7 +104,7 @@ export default function GamePage() {
       }, 300);
       return () => clearTimeout(timer);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProduct]); // hanya trigger saat produk dipilih
 
   if (gameLoading) {
@@ -122,8 +122,8 @@ export default function GamePage() {
   const filteredProducts = activeCategory === ALL_CATEGORIES
     ? products.filter((p) => p.is_active)
     : products.filter(
-        (p) => p.category?.toLowerCase() === activeCategory?.toLowerCase() && p.is_active
-      );
+      (p) => p.category?.toLowerCase() === activeCategory?.toLowerCase() && p.is_active
+    );
 
   /* ── Kategori tabs — urutan mengikuti konfigurasi game dari admin panel ── */
   const availableCategories = (() => {
@@ -213,12 +213,12 @@ export default function GamePage() {
 
   /* ── Order handlers ── */
   const handleOrder = () => {
-    if (!gameId.trim())    { alert("Masukkan Game ID terlebih dahulu!"); return; }
-    if (!username.trim())  { alert("Masukkan Nama Pengguna/Game terlebih dahulu!"); return; }
-    if (!whatsapp.trim())  { alert("Masukkan nomor WhatsApp!"); return; }
+    if (!gameId.trim()) { alert("Masukkan Game ID terlebih dahulu!"); return; }
+    if (!username.trim()) { alert("Masukkan Nama Pengguna/Game terlebih dahulu!"); return; }
+    if (!whatsapp.trim()) { alert("Masukkan nomor WhatsApp!"); return; }
     const waRegex = /^(08|628)\d{8,12}$/;
     if (!waRegex.test(whatsapp.trim())) { alert("Nomor WhatsApp tidak valid (contoh: 08123456789 atau 628...)"); return; }
-    if (!selectedProduct)  { alert("Pilih paket terlebih dahulu!"); return; }
+    if (!selectedProduct) { alert("Pilih paket terlebih dahulu!"); return; }
     setModalOpen(true);
   };
 
@@ -250,13 +250,13 @@ export default function GamePage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          invoice_id:    invoiceId,
-          game_id:       gameId,
-          username:      username,
-          game_name:     game.name,
-          whatsapp:      formatWhatsApp(whatsapp),
-          product_id:    selectedProduct.id,
-          product_name:  selectedProduct.name,
+          invoice_id: invoiceId,
+          game_id: gameId,
+          username: username,
+          game_name: game.name,
+          whatsapp: formatWhatsApp(whatsapp),
+          product_id: selectedProduct.id,
+          product_name: selectedProduct.name,
           product_price: selectedProduct.price,
           payment_proof: paymentProofUrl,
         }),
@@ -405,584 +405,584 @@ export default function GamePage() {
           {/* ── STEP 2: Isi Data & Pilih Paket ── */}
           <div>
 
-          {/* ── Formulir Isi Data (ditampilkan PERTAMA) ── */}
-          <div className="mb-6">
-            <h3 className="text-sm font-bold mb-4 flex items-center gap-2" style={{ color: "var(--text-secondary)" }}>
-              <span style={{ fontSize: "18px" }}>📝</span> Isi Data Kamu
-            </h3>
+            {/* ── Formulir Isi Data (ditampilkan PERTAMA) ── */}
+            <div className="mb-6">
+              <h3 className="text-sm font-bold mb-4 flex items-center gap-2" style={{ color: "var(--text-secondary)" }}>
+                <span style={{ fontSize: "18px" }}>📝</span> Isi Data Kamu
+              </h3>
 
-            {/* Game ID */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>
-                <User size={14} className="inline mr-1" /> Game ID
-              </label>
-              <input
-                id="input-game-id" type="text" inputMode="numeric" pattern="[0-9]*"
-                className="input-styled"
-                placeholder="Contoh: 123456789"
-                value={gameId}
-                maxLength={10}
-                onChange={(e) => setGameId(e.target.value.replace(/\D/g, "").slice(0, 10))}
-              />
-              <p className="text-xs mt-1.5" style={{ color: "var(--text-muted)" }}>
-                Temukan Game ID di dalam game → Profil → ID Pengguna (maks. 10 digit)
-              </p>
-            </div>
+              {/* Game ID */}
+              <div className="mb-4">
+                <label className="block text-sm font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>
+                  <User size={14} className="inline mr-1" /> Game ID
+                </label>
+                <input
+                  id="input-game-id" type="text" inputMode="numeric" pattern="[0-9]*"
+                  className="input-styled"
+                  placeholder="Contoh: 123456789"
+                  value={gameId}
+                  maxLength={10}
+                  onChange={(e) => setGameId(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                />
+                <p className="text-xs mt-1.5" style={{ color: "var(--text-muted)" }}>
+                  Temukan Game ID di dalam game → Profil → ID Pengguna (maks. 10 digit)
+                </p>
+              </div>
 
-            {/* Username */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>
-                <User size={14} className="inline mr-1" /> Nama Pengguna/Game
-              </label>
-              <input
-                id="input-username" type="text" className="input-styled"
-                placeholder="Contoh: RajaGamer123"
-                value={username} onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
+              {/* Username */}
+              <div className="mb-4">
+                <label className="block text-sm font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>
+                  <User size={14} className="inline mr-1" /> Nama Pengguna/Game
+                </label>
+                <input
+                  id="input-username" type="text" className="input-styled"
+                  placeholder="Contoh: LegendGamer123"
+                  value={username} onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
 
-            {/* WhatsApp */}
-            <div className="mb-0">
-              <label className="block text-sm font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>
-                <Phone size={14} className="inline mr-1" /> Nomor WhatsApp
-              </label>
-              <input
-                id="input-whatsapp" type="tel" inputMode="numeric" pattern="[0-9]*"
-                className="input-styled"
-                placeholder="Contoh: 08123456789"
-                value={whatsapp}
-                maxLength={15}
-                onChange={(e) => {
-                  let val = e.target.value.replace(/\D/g, "").slice(0, 15);
-                  if (val.length > 0 && val[0] !== '0' && val[0] !== '6') val = "";
-                  else if (val.length >= 2 && val.startsWith('6') && val[1] !== '2') val = "6";
-                  setWhatsapp(val);
-                }}
-              />
-            </div>
-          </div>
-
-          {/* ── Separator ── */}
-          <div style={{ height: "1px", background: "var(--border)", margin: "24px 0" }} />
-
-          {/* ── Pilih Nominal Top Up (ditampilkan KEDUA) ── */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-3">
-              <label className="block text-sm font-semibold" style={{ color: "var(--text-secondary)" }}>
-                Pilih Nominal
-                {!loadingProducts && (
-                  <span className="ml-2 text-xs font-normal" style={{ color: "var(--text-muted)" }}>
-                    ({filteredProducts.length} paket tersedia)
-                  </span>
-                )}
-              </label>
-              {/* Grid / List Toggle */}
-              <div
-                className="flex items-center gap-1 p-1 rounded-lg"
-                style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}
-              >
-                <button
-                  id="game-view-grid"
-                  onClick={() => setViewMode("grid")}
-                  title="Grid 2 kolom"
-                  className="w-8 h-8 rounded-md flex items-center justify-center transition-all"
-                  style={
-                    viewMode === "grid"
-                      ? { background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#0f172a" }
-                      : { color: "var(--text-muted)" }
-                  }
-                >
-                  <LayoutGrid size={15} />
-                </button>
-                <button
-                  id="game-view-list"
-                  onClick={() => setViewMode("list")}
-                  title="List view"
-                  className="w-8 h-8 rounded-md flex items-center justify-center transition-all"
-                  style={
-                    viewMode === "list"
-                      ? { background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#0f172a" }
-                      : { color: "var(--text-muted)" }
-                  }
-                >
-                  <List size={15} />
-                </button>
+              {/* WhatsApp */}
+              <div className="mb-0">
+                <label className="block text-sm font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>
+                  <Phone size={14} className="inline mr-1" /> Nomor WhatsApp
+                </label>
+                <input
+                  id="input-whatsapp" type="tel" inputMode="numeric" pattern="[0-9]*"
+                  className="input-styled"
+                  placeholder="Contoh: 08123456789"
+                  value={whatsapp}
+                  maxLength={15}
+                  onChange={(e) => {
+                    let val = e.target.value.replace(/\D/g, "").slice(0, 15);
+                    if (val.length > 0 && val[0] !== '0' && val[0] !== '6') val = "";
+                    else if (val.length >= 2 && val.startsWith('6') && val[1] !== '2') val = "6";
+                    setWhatsapp(val);
+                  }}
+                />
               </div>
             </div>
 
-            {/* Category tabs — hanya tampil jika ada > 1 kategori */}
-            {availableCategories.length > 1 && (
-              <div className="flex flex-wrap gap-3 mb-4">
-                {/* Tombol SEMUA */}
-                <button
-                  key="__all__"
-                  id="category-semua"
-                  onClick={() => { setActiveCategory(ALL_CATEGORIES); setSelectedProduct(null); }}
-                  className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all"
-                  style={
-                    activeCategory === ALL_CATEGORIES
-                      ? { background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#0f172a", boxShadow: "0 4px 15px rgba(245,158,11,0.45)" }
-                      : { background: "var(--bg-secondary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }
-                  }
-                >
-                  🎯 Semua
-                </button>
+            {/* ── Separator ── */}
+            <div style={{ height: "1px", background: "var(--border)", margin: "24px 0" }} />
 
-                {availableCategories.map((cat) => {
-                  const catLower = cat?.toLowerCase() ?? "";
-                  let icon = "📦";
-                  let label = cat;
-                  
-                  if (catLower === game.currency?.toLowerCase()) {
-                    icon = game.currencyIcon || "💎";
-                    label = game.currency;
-                  } else {
-                    // Cari di extraCurrencies game (dari admin panel)
-                    const extra = game.extraCurrencies?.find((c: any) => c.key === catLower || c.label.toLowerCase() === catLower);
-                    if (extra) {
-                      icon = extra.icon;
-                      label = extra.label;
+            {/* ── Pilih Nominal Top Up (ditampilkan KEDUA) ── */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-3">
+                <label className="block text-sm font-semibold" style={{ color: "var(--text-secondary)" }}>
+                  Pilih Nominal
+                  {!loadingProducts && (
+                    <span className="ml-2 text-xs font-normal" style={{ color: "var(--text-muted)" }}>
+                      ({filteredProducts.length} paket tersedia)
+                    </span>
+                  )}
+                </label>
+                {/* Grid / List Toggle */}
+                <div
+                  className="flex items-center gap-1 p-1 rounded-lg"
+                  style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}
+                >
+                  <button
+                    id="game-view-grid"
+                    onClick={() => setViewMode("grid")}
+                    title="Grid 2 kolom"
+                    className="w-8 h-8 rounded-md flex items-center justify-center transition-all"
+                    style={
+                      viewMode === "grid"
+                        ? { background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#0f172a" }
+                        : { color: "var(--text-muted)" }
+                    }
+                  >
+                    <LayoutGrid size={15} />
+                  </button>
+                  <button
+                    id="game-view-list"
+                    onClick={() => setViewMode("list")}
+                    title="List view"
+                    className="w-8 h-8 rounded-md flex items-center justify-center transition-all"
+                    style={
+                      viewMode === "list"
+                        ? { background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#0f172a" }
+                        : { color: "var(--text-muted)" }
+                    }
+                  >
+                    <List size={15} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Category tabs — hanya tampil jika ada > 1 kategori */}
+              {availableCategories.length > 1 && (
+                <div className="flex flex-wrap gap-3 mb-4">
+                  {/* Tombol SEMUA */}
+                  <button
+                    key="__all__"
+                    id="category-semua"
+                    onClick={() => { setActiveCategory(ALL_CATEGORIES); setSelectedProduct(null); }}
+                    className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all"
+                    style={
+                      activeCategory === ALL_CATEGORIES
+                        ? { background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#0f172a", boxShadow: "0 4px 15px rgba(245,158,11,0.45)" }
+                        : { background: "var(--bg-secondary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }
+                    }
+                  >
+                    🎯 Semua
+                  </button>
+
+                  {availableCategories.map((cat) => {
+                    const catLower = cat?.toLowerCase() ?? "";
+                    let icon = "📦";
+                    let label = cat;
+
+                    if (catLower === game.currency?.toLowerCase()) {
+                      icon = game.currencyIcon || "💎";
+                      label = game.currency;
                     } else {
-                      // Fallback untuk kategori standar
-                      const CAT_MAP: Record<string, { icon: string; label: string }> = {
-                        diamond:  { icon: "💎", label: "Diamond" },
-                        uc:       { icon: "🪙", label: "UC" },
-                        koin:     { icon: "🪙", label: "Koin" },
-                        chip:     { icon: "🎰", label: "Chip" },
-                        gold:     { icon: "🥇", label: "Gold" },
-                        voucher:  { icon: "🎫", label: "Voucher" },
-                        spesial:  { icon: "⭐", label: "Paket Spesial" },
-                        b:        { icon: "🎰", label: "B" },
-                        m:        { icon: "🎰", label: "M" },
-                        "100m":   { icon: "💰", label: "100M" },
-                      };
-                      if (CAT_MAP[catLower]) {
-                        icon = CAT_MAP[catLower].icon;
-                        label = CAT_MAP[catLower].label;
+                      // Cari di extraCurrencies game (dari admin panel)
+                      const extra = game.extraCurrencies?.find((c: any) => c.key === catLower || c.label.toLowerCase() === catLower);
+                      if (extra) {
+                        icon = extra.icon;
+                        label = extra.label;
                       } else {
-                        // Untuk kategori custom yang tidak dikenal, gunakan nama aslinya
-                        label = cat;
-                        icon = "📦";
+                        // Fallback untuk kategori standar
+                        const CAT_MAP: Record<string, { icon: string; label: string }> = {
+                          diamond: { icon: "💎", label: "Diamond" },
+                          uc: { icon: "🪙", label: "UC" },
+                          koin: { icon: "🪙", label: "Koin" },
+                          chip: { icon: "🎰", label: "Chip" },
+                          gold: { icon: "🥇", label: "Gold" },
+                          voucher: { icon: "🎫", label: "Voucher" },
+                          spesial: { icon: "⭐", label: "Paket Spesial" },
+                          b: { icon: "🎰", label: "B" },
+                          m: { icon: "🎰", label: "M" },
+                          "100m": { icon: "💰", label: "100M" },
+                        };
+                        if (CAT_MAP[catLower]) {
+                          icon = CAT_MAP[catLower].icon;
+                          label = CAT_MAP[catLower].label;
+                        } else {
+                          // Untuk kategori custom yang tidak dikenal, gunakan nama aslinya
+                          label = cat;
+                          icon = "📦";
+                        }
                       }
                     }
-                  }
-                  return (
-                    <button
-                      key={cat} id={`category-${cat}`}
-                      onClick={() => { setActiveCategory(cat); setSelectedProduct(null); }}
-                      className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all"
-                      style={activeCategory?.toLowerCase() === catLower
-                        ? { background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#0f172a", boxShadow: "0 4px 15px rgba(245,158,11,0.45)" }
-                        : { background: "var(--bg-secondary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
-                    >
-                      {icon} {label}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {loadingProducts ? (
-              <div style={viewMode === "grid"
-                ? { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" }
-                : { display: "flex", flexDirection: "column", gap: "8px" }
-              }>
-                {Array.from({ length: 8 }).map((_, i) => (
-                  viewMode === "grid" ? (
-                    <div key={i} className="product-card" style={{ cursor: "default" }}>
-                      <div className="skeleton w-8 h-8 rounded-full mx-auto mb-2" />
-                      <div className="skeleton h-4 w-12 mx-auto mb-1" />
-                      <div className="skeleton h-3 w-10 mx-auto mb-2" />
-                      <div className="skeleton h-4 w-16 mx-auto" />
-                    </div>
-                  ) : (
-                    <div key={i} className="skeleton rounded-xl" style={{ height: "52px" }} />
-                  )
-                ))}
-              </div>
-            ) : filteredProducts.length === 0 ? (
-              <div
-                className="text-center py-10 rounded-2xl"
-                style={{ background: "var(--bg-secondary)", border: "1px dashed var(--border)", color: "var(--text-muted)" }}
-              >
-                <span className="text-3xl block mb-2">📦</span>
-                <p className="text-sm">Belum ada paket tersedia</p>
-              </div>
-            ) : (
-              /* ── Grid or List container ── */
-              <div
-                style={
-                  viewMode === "grid"
-                    ? { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" }
-                    : { display: "flex", flexDirection: "column", gap: "8px" }
-                }
-              >
-                {filteredProducts.map((product) => {
-                  const isSpesial = product.category === "spesial" && product.amount?.startsWith("SPECIAL|");
-
-                  if (isSpesial) {
-                    const parts = product.amount!.split("|");
-                    const min = Number(parts[1]) || 1;
-                    const max = Number(parts[2]) || 10;
-                    const step = Number(parts[3]) || 1;
-                    const unit = parts[4] || "B";
-                    const basePrice = product.price;
-                    const currentValue = specialValues[product.id] ?? min;
-                    const calculatedPrice = (currentValue / step) * basePrice;
-                    const isSelected = selectedProduct?.id === product.id || selectedProduct?.id === `${product.id}-dynamic`;
-
-                    const handleSliderChange = (val: number) => {
-                      if (!gameId.trim() || !whatsapp.trim()) {
-                        setIncompletePopup(true);
-                        setTimeout(() => {
-                          document.getElementById("input-game-id")?.focus();
-                        }, 100);
-                        return;
-                      }
-                      setSpecialValues(prev => ({ ...prev, [product.id]: val }));
-                      setSelectedProduct({
-                        ...product,
-                        id: `${product.id}-dynamic`,
-                        amount: `${val}${unit}`,
-                        name: `${product.name} - ${val}${unit}`,
-                        price: (val / step) * basePrice,
-                      });
-                    };
-
                     return (
-                      <div
-                        key={product.id}
-                        onClick={() => handleSliderChange(currentValue)}
-                        style={{
-                          gridColumn: "1 / -1",
-                          background: isSelected ? `${game.color}15` : "var(--bg-secondary)",
-                          border: isSelected ? `2px solid ${game.color}` : "2px solid var(--border)",
-                          boxShadow: isSelected ? `0 4px 20px ${game.color}20` : "none",
-                          borderRadius: "16px",
-                          padding: "20px",
-                          cursor: "pointer",
-                          transition: "all 0.2s ease",
-                        }}
+                      <button
+                        key={cat} id={`category-${cat}`}
+                        onClick={() => { setActiveCategory(cat); setSelectedProduct(null); }}
+                        className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all"
+                        style={activeCategory?.toLowerCase() === catLower
+                          ? { background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#0f172a", boxShadow: "0 4px 15px rgba(245,158,11,0.45)" }
+                          : { background: "var(--bg-secondary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
                       >
-                        {product.is_popular && <div className="popular-badge mb-2">🔥 Best Price</div>}
-                        <div className="mb-4">
-                          <h3 className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>{product.name}</h3>
-                          <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
-                            Pilih nominal mulai {min}{unit} sampai {max}{unit}. Harga otomatis dihitung {formatCurrency(basePrice)} per {step}{unit}.
-                          </p>
-                        </div>
-                        <div className="flex flex-col items-center justify-center mb-6 py-4 rounded-xl" style={{ background: "rgba(0,0,0,0.2)" }}>
-                          {/* Gambar atau nilai nominal */}
-                          <div className="flex items-center gap-3 mb-1">
-                            {(product as any).special_image ? (
-                              <img
-                                src={(product as any).special_image}
-                                alt={product.name}
-                                style={{ width: 48, height: 48, objectFit: "contain", flexShrink: 0 }}
+                        {icon} {label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {loadingProducts ? (
+                <div style={viewMode === "grid"
+                  ? { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" }
+                  : { display: "flex", flexDirection: "column", gap: "8px" }
+                }>
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    viewMode === "grid" ? (
+                      <div key={i} className="product-card" style={{ cursor: "default" }}>
+                        <div className="skeleton w-8 h-8 rounded-full mx-auto mb-2" />
+                        <div className="skeleton h-4 w-12 mx-auto mb-1" />
+                        <div className="skeleton h-3 w-10 mx-auto mb-2" />
+                        <div className="skeleton h-4 w-16 mx-auto" />
+                      </div>
+                    ) : (
+                      <div key={i} className="skeleton rounded-xl" style={{ height: "52px" }} />
+                    )
+                  ))}
+                </div>
+              ) : filteredProducts.length === 0 ? (
+                <div
+                  className="text-center py-10 rounded-2xl"
+                  style={{ background: "var(--bg-secondary)", border: "1px dashed var(--border)", color: "var(--text-muted)" }}
+                >
+                  <span className="text-3xl block mb-2">📦</span>
+                  <p className="text-sm">Belum ada paket tersedia</p>
+                </div>
+              ) : (
+                /* ── Grid or List container ── */
+                <div
+                  style={
+                    viewMode === "grid"
+                      ? { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" }
+                      : { display: "flex", flexDirection: "column", gap: "8px" }
+                  }
+                >
+                  {filteredProducts.map((product) => {
+                    const isSpesial = product.category === "spesial" && product.amount?.startsWith("SPECIAL|");
+
+                    if (isSpesial) {
+                      const parts = product.amount!.split("|");
+                      const min = Number(parts[1]) || 1;
+                      const max = Number(parts[2]) || 10;
+                      const step = Number(parts[3]) || 1;
+                      const unit = parts[4] || "B";
+                      const basePrice = product.price;
+                      const currentValue = specialValues[product.id] ?? min;
+                      const calculatedPrice = (currentValue / step) * basePrice;
+                      const isSelected = selectedProduct?.id === product.id || selectedProduct?.id === `${product.id}-dynamic`;
+
+                      const handleSliderChange = (val: number) => {
+                        if (!gameId.trim() || !whatsapp.trim()) {
+                          setIncompletePopup(true);
+                          setTimeout(() => {
+                            document.getElementById("input-game-id")?.focus();
+                          }, 100);
+                          return;
+                        }
+                        setSpecialValues(prev => ({ ...prev, [product.id]: val }));
+                        setSelectedProduct({
+                          ...product,
+                          id: `${product.id}-dynamic`,
+                          amount: `${val}${unit}`,
+                          name: `${product.name} - ${val}${unit}`,
+                          price: (val / step) * basePrice,
+                        });
+                      };
+
+                      return (
+                        <div
+                          key={product.id}
+                          onClick={() => handleSliderChange(currentValue)}
+                          style={{
+                            gridColumn: "1 / -1",
+                            background: isSelected ? `${game.color}15` : "var(--bg-secondary)",
+                            border: isSelected ? `2px solid ${game.color}` : "2px solid var(--border)",
+                            boxShadow: isSelected ? `0 4px 20px ${game.color}20` : "none",
+                            borderRadius: "16px",
+                            padding: "20px",
+                            cursor: "pointer",
+                            transition: "all 0.2s ease",
+                          }}
+                        >
+                          {product.is_popular && <div className="popular-badge mb-2">🔥 Best Price</div>}
+                          <div className="mb-4">
+                            <h3 className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>{product.name}</h3>
+                            <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
+                              Pilih nominal mulai {min}{unit} sampai {max}{unit}. Harga otomatis dihitung {formatCurrency(basePrice)} per {step}{unit}.
+                            </p>
+                          </div>
+                          <div className="flex flex-col items-center justify-center mb-6 py-4 rounded-xl" style={{ background: "rgba(0,0,0,0.2)" }}>
+                            {/* Gambar atau nilai nominal */}
+                            <div className="flex items-center gap-3 mb-1">
+                              {(product as any).special_image ? (
+                                <img
+                                  src={(product as any).special_image}
+                                  alt={product.name}
+                                  style={{ width: 48, height: 48, objectFit: "contain", flexShrink: 0 }}
+                                />
+                              ) : (
+                                <span style={{ fontSize: 36, lineHeight: 1 }}>⭐</span>
+                              )}
+                              <div className="text-3xl font-black" style={{ color: "var(--text-primary)" }}>
+                                {currentValue}<span className="text-xl">{unit}</span>
+                              </div>
+                            </div>
+                            <div className="text-lg font-bold" style={{ color: game.color }}>{formatCurrency(calculatedPrice)}</div>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); handleSliderChange(Math.max(min, currentValue - step)); }}
+                              className="w-12 h-10 rounded-xl flex items-center justify-center font-bold text-sm bg-white text-black hover:opacity-90 active:scale-95 transition-all flex-shrink-0"
+                            >-{step}{unit}</button>
+                            <div className="flex-1" onClick={e => e.stopPropagation()}>
+                              <input
+                                type="range" min={min} max={max} step={step} value={currentValue}
+                                onChange={(e) => handleSliderChange(Number(e.target.value))}
+                                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                                style={{ background: `linear-gradient(to right, ${game.color} ${((currentValue - min) / (max - min)) * 100}%, var(--border) ${((currentValue - min) / (max - min)) * 100}%)` }}
                               />
-                            ) : (
-                              <span style={{ fontSize: 36, lineHeight: 1 }}>⭐</span>
-                            )}
-                            <div className="text-3xl font-black" style={{ color: "var(--text-primary)" }}>
-                              {currentValue}<span className="text-xl">{unit}</span>
+                            </div>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); handleSliderChange(Math.min(max, currentValue + step)); }}
+                              className="w-12 h-10 rounded-xl flex items-center justify-center font-bold text-sm bg-white text-black hover:opacity-90 active:scale-95 transition-all flex-shrink-0"
+                            >+{step}{unit}</button>
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    /* ── Static product: GRID card ── */
+                    if (viewMode === "grid") {
+                      const isSelected = selectedProduct?.id === product.id;
+                      return (
+                        <button
+                          key={product.id}
+                          id={`product-${product.id}`}
+                          onClick={() => handleSelectProduct(product)}
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            position: "relative",
+                            padding: 0,
+                            borderRadius: "14px",
+                            border: isSelected
+                              ? `2px solid ${game.color}`
+                              : "1.5px solid var(--border)",
+                            background: isSelected
+                              ? `${game.color}18`
+                              : "var(--bg-secondary)",
+                            boxShadow: isSelected
+                              ? `0 0 0 1px ${game.color}30, 0 8px 24px ${game.color}25`
+                              : "0 1px 3px rgba(0,0,0,0.2)",
+                            cursor: "pointer",
+                            transition: "all 0.22s cubic-bezier(0.34,1.56,0.64,1)",
+                            textAlign: "left",
+                            overflow: "hidden",
+                          }}
+                        >
+                          {/* Popular ribbon */}
+                          {product.is_popular && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: 0, left: 0, right: 0,
+                                background: "linear-gradient(90deg,#fbbf24,#f59e0b)",
+                                color: "#0f172a",
+                                fontSize: "9px",
+                                fontWeight: 800,
+                                padding: "3px 0",
+                                letterSpacing: "0.04em",
+                                textTransform: "uppercase",
+                                textAlign: "center",
+                              }}
+                            >🔥 Populer</span>
+                          )}
+
+                          {/* Selected checkmark (top-right) */}
+                          {isSelected && (
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: "8px", right: "8px",
+                                width: "18px", height: "18px",
+                                borderRadius: "50%",
+                                background: game.color,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                boxShadow: `0 2px 8px ${game.color}60`,
+                                zIndex: 1,
+                              }}
+                            >
+                              <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                                <path d="M1 4L3.5 6.5L9 1" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </div>
+                          )}
+
+                          {/* ── Main content area ── */}
+                          <div style={{ padding: product.is_popular ? "22px 10px 10px" : "10px 10px 10px", flex: 1 }}>
+                            {/* Product name */}
+                            <div
+                              style={{
+                                fontWeight: 700,
+                                fontSize: "12px",
+                                color: "var(--text-primary)",
+                                marginBottom: "10px",
+                                lineHeight: 1.3,
+                                paddingRight: isSelected ? "22px" : "0",
+                                wordBreak: "break-word",
+                                overflowWrap: "break-word",
+                              }}
+                            >
+                              {product.name}
+                            </div>
+
+                            {/* Icon + Price row */}
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px", minWidth: 0 }}>
+                              <div style={{ flexShrink: 0, width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <ProductIcon product={product} size={38} />
+                              </div>
+                              <div
+                                style={{
+                                  fontWeight: 800,
+                                  fontSize: "12px",
+                                  color: isSelected ? game.color : "var(--text-primary)",
+                                  transition: "color 0.2s ease",
+                                  minWidth: 0,
+                                  wordBreak: "break-word",
+                                  overflowWrap: "break-word",
+                                  lineHeight: 1.3,
+                                }}
+                              >
+                                {formatCurrency(product.price)}
+                              </div>
                             </div>
                           </div>
-                          <div className="text-lg font-bold" style={{ color: game.color }}>{formatCurrency(calculatedPrice)}</div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <button
-                            onClick={(e) => { e.stopPropagation(); handleSliderChange(Math.max(min, currentValue - step)); }}
-                            className="w-12 h-10 rounded-xl flex items-center justify-center font-bold text-sm bg-white text-black hover:opacity-90 active:scale-95 transition-all flex-shrink-0"
-                          >-{step}{unit}</button>
-                          <div className="flex-1" onClick={e => e.stopPropagation()}>
-                            <input
-                              type="range" min={min} max={max} step={step} value={currentValue}
-                              onChange={(e) => handleSliderChange(Number(e.target.value))}
-                              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                              style={{ background: `linear-gradient(to right, ${game.color} ${((currentValue - min) / (max - min)) * 100}%, var(--border) ${((currentValue - min) / (max - min)) * 100}%)` }}
-                            />
-                          </div>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); handleSliderChange(Math.min(max, currentValue + step)); }}
-                            className="w-12 h-10 rounded-xl flex items-center justify-center font-bold text-sm bg-white text-black hover:opacity-90 active:scale-95 transition-all flex-shrink-0"
-                          >+{step}{unit}</button>
-                        </div>
-                      </div>
-                    );
-                  }
 
-                  /* ── Static product: GRID card ── */
-                  if (viewMode === "grid") {
+                          {/* ── Footer bar ── */}
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              padding: "6px 10px",
+                              background: "rgba(0,0,0,0.2)",
+                              borderTop: "1px solid rgba(255,255,255,0.06)",
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontSize: "10px",
+                                fontWeight: 800,
+                                letterSpacing: "0.07em",
+                                color: "var(--text-muted)",
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              {product.category ?? "Regular"}
+                            </span>
+                            <span
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "3px",
+                                fontSize: "10px",
+                                fontWeight: 800,
+                                padding: "2px 8px",
+                                borderRadius: "6px",
+                                background: "rgba(255,255,255,0.08)",
+                                color: "var(--text-secondary)",
+                                border: "1px solid rgba(255,255,255,0.12)",
+                                letterSpacing: "0.04em",
+                              }}
+                            >
+                              ⚡ FAST
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    }
+
+                    /* ── Static product: LIST row ── */
                     const isSelected = selectedProduct?.id === product.id;
                     return (
                       <button
                         key={product.id}
-                        id={`product-${product.id}`}
+                        id={`product-list-${product.id}`}
                         onClick={() => handleSelectProduct(product)}
                         style={{
                           display: "flex",
-                          flexDirection: "column",
-                          position: "relative",
-                          padding: 0,
+                          alignItems: "center",
+                          gap: "12px",
+                          width: "100%",
+                          padding: "12px 14px",
                           borderRadius: "14px",
-                          border: isSelected
-                            ? `2px solid ${game.color}`
-                            : "1.5px solid var(--border)",
-                          background: isSelected
-                            ? `${game.color}18`
-                            : "var(--bg-secondary)",
-                          boxShadow: isSelected
-                            ? `0 0 0 1px ${game.color}30, 0 8px 24px ${game.color}25`
-                            : "0 1px 3px rgba(0,0,0,0.2)",
+                          border: isSelected ? `2px solid ${game.color}` : "1.5px solid var(--border)",
+                          background: isSelected ? `${game.color}10` : "var(--bg-secondary)",
+                          boxShadow: isSelected ? `0 2px 12px ${game.color}25` : "none",
                           cursor: "pointer",
-                          transition: "all 0.22s cubic-bezier(0.34,1.56,0.64,1)",
+                          transition: "all 0.18s ease",
                           textAlign: "left",
-                          overflow: "hidden",
                         }}
                       >
-                        {/* Popular ribbon */}
-                        {product.is_popular && (
-                          <span
-                            style={{
-                              position: "absolute",
-                              top: 0, left: 0, right: 0,
-                              background: "linear-gradient(90deg,#fbbf24,#f59e0b)",
-                              color: "#0f172a",
-                              fontSize: "9px",
-                              fontWeight: 800,
-                              padding: "3px 0",
-                              letterSpacing: "0.04em",
-                              textTransform: "uppercase",
-                              textAlign: "center",
-                            }}
-                          >🔥 Populer</span>
-                        )}
-
-                        {/* Selected checkmark (top-right) */}
-                        {isSelected && (
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "8px", right: "8px",
-                              width: "18px", height: "18px",
-                              borderRadius: "50%",
-                              background: game.color,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              boxShadow: `0 2px 8px ${game.color}60`,
-                              zIndex: 1,
-                            }}
-                          >
-                            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                              <path d="M1 4L3.5 6.5L9 1" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </div>
-                        )}
-
-                        {/* ── Main content area ── */}
-                        <div style={{ padding: product.is_popular ? "22px 10px 10px" : "10px 10px 10px", flex: 1 }}>
-                          {/* Product name */}
-                          <div
-                            style={{
-                              fontWeight: 700,
-                              fontSize: "12px",
-                              color: "var(--text-primary)",
-                              marginBottom: "10px",
-                              lineHeight: 1.3,
-                              paddingRight: isSelected ? "22px" : "0",
-                              wordBreak: "break-word",
-                              overflowWrap: "break-word",
-                            }}
-                          >
-                            {product.name}
-                          </div>
-
-                          {/* Icon + Price row */}
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px", minWidth: 0 }}>
-                            <div style={{ flexShrink: 0, width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                              <ProductIcon product={product} size={38} />
-                            </div>
-                            <div
-                              style={{
-                                fontWeight: 800,
-                                fontSize: "12px",
-                                color: isSelected ? game.color : "var(--text-primary)",
-                                transition: "color 0.2s ease",
-                                minWidth: 0,
-                                wordBreak: "break-word",
-                                overflowWrap: "break-word",
-                                lineHeight: 1.3,
-                              }}
-                            >
-                              {formatCurrency(product.price)}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* ── Footer bar ── */}
+                        {/* Icon */}
                         <div
                           style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            padding: "6px 10px",
-                            background: "rgba(0,0,0,0.2)",
-                            borderTop: "1px solid rgba(255,255,255,0.06)",
+                            width: "40px", height: "40px", borderRadius: "12px", flexShrink: 0,
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            fontSize: "20px",
+                            background: isSelected ? `${game.color}20` : "var(--bg-card)",
+                            border: `1.5px solid ${isSelected ? game.color + "50" : "var(--border)"}`,
                           }}
                         >
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              fontWeight: 800,
-                              letterSpacing: "0.07em",
-                              color: "var(--text-muted)",
-                              textTransform: "uppercase",
-                            }}
-                          >
-                            {product.category ?? "Regular"}
+                          <ProductIcon product={product} size={38} />
+                        </div>
+                        {/* Name + sub */}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--text-primary)", lineHeight: 1.2 }}>
+                            {product.name}
+                            {product.is_popular && (
+                              <span style={{ marginLeft: "6px", color: "#ef4444", fontWeight: 700 }}>🔥</span>
+                            )}
+                          </div>
+                          <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>
+                            {product.amount} {product.category?.toUpperCase()}
+                          </div>
+                        </div>
+                        {/* Price + checkmark */}
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+                          <span style={{ fontWeight: 800, fontSize: "14px", color: game.color }}>
+                            {formatCurrency(product.price)}
                           </span>
-                          <span
-                            style={{
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: "3px",
-                              fontSize: "10px",
-                              fontWeight: 800,
-                              padding: "2px 8px",
-                              borderRadius: "6px",
-                              background: "rgba(255,255,255,0.08)",
-                              color: "var(--text-secondary)",
-                              border: "1px solid rgba(255,255,255,0.12)",
-                              letterSpacing: "0.04em",
-                            }}
-                          >
-                            ⚡ FAST
-                          </span>
+                          {isSelected && (
+                            <div
+                              style={{
+                                width: "20px", height: "20px", borderRadius: "50%",
+                                background: game.color, display: "flex",
+                                alignItems: "center", justifyContent: "center",
+                                flexShrink: 0,
+                              }}
+                            >
+                              <svg width="11" height="8" viewBox="0 0 11 8" fill="none">
+                                <path d="M1 4L4 7L10 1" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </div>
+                          )}
                         </div>
                       </button>
                     );
-                  }
+                  })}
+                </div>
+              )}
+            </div> {/* end product grid */}
 
-                  /* ── Static product: LIST row ── */
-                  const isSelected = selectedProduct?.id === product.id;
-                  return (
-                    <button
-                      key={product.id}
-                      id={`product-list-${product.id}`}
-                      onClick={() => handleSelectProduct(product)}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "12px",
-                        width: "100%",
-                        padding: "12px 14px",
-                        borderRadius: "14px",
-                        border: isSelected ? `2px solid ${game.color}` : "1.5px solid var(--border)",
-                        background: isSelected ? `${game.color}10` : "var(--bg-secondary)",
-                        boxShadow: isSelected ? `0 2px 12px ${game.color}25` : "none",
-                        cursor: "pointer",
-                        transition: "all 0.18s ease",
-                        textAlign: "left",
-                      }}
-                    >
-                      {/* Icon */}
-                      <div
-                        style={{
-                          width: "40px", height: "40px", borderRadius: "12px", flexShrink: 0,
-                          display: "flex", alignItems: "center", justifyContent: "center",
-                          fontSize: "20px",
-                          background: isSelected ? `${game.color}20` : "var(--bg-card)",
-                          border: `1.5px solid ${isSelected ? game.color + "50" : "var(--border)"}`,
-                        }}
-                      >
-                        <ProductIcon product={product} size={38} />
-                      </div>
-                      {/* Name + sub */}
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--text-primary)", lineHeight: 1.2 }}>
-                          {product.name}
-                          {product.is_popular && (
-                            <span style={{ marginLeft: "6px", color: "#ef4444", fontWeight: 700 }}>🔥</span>
-                          )}
-                        </div>
-                        <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>
-                          {product.amount} {product.category?.toUpperCase()}
-                        </div>
-                      </div>
-                      {/* Price + checkmark */}
-                      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
-                        <span style={{ fontWeight: 800, fontSize: "14px", color: game.color }}>
-                          {formatCurrency(product.price)}
-                        </span>
-                        {isSelected && (
-                          <div
-                            style={{
-                              width: "20px", height: "20px", borderRadius: "50%",
-                              background: game.color, display: "flex",
-                              alignItems: "center", justifyContent: "center",
-                              flexShrink: 0,
-                            }}
-                          >
-                            <svg width="11" height="8" viewBox="0 0 11 8" fill="none">
-                              <path d="M1 4L4 7L10 1" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div> {/* end product grid */}
+            {/* ── Separator ── */}
+            <div style={{ height: "1px", background: "var(--border)", margin: "24px 0" }} />
 
-          {/* ── Separator ── */}
-          <div style={{ height: "1px", background: "var(--border)", margin: "24px 0" }} />
+            {/* ── Paket Dipilih (summary) + Tombol Konfirmasi ── */}
+            <div>
+              {/* Paket dipilih (summary) */}
+              {selectedProduct && (
+                <div
+                  className="rounded-2xl p-3 mb-4 flex items-center justify-between"
+                  style={{ background: `${game.color}12`, border: `1.5px solid ${game.color}35` }}
+                >
+                  <div>
+                    <div className="text-xs font-semibold mb-0.5" style={{ color: "var(--text-muted)" }}>Paket dipilih</div>
+                    <div className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>{selectedProduct.name}</div>
+                  </div>
+                  <div className="text-base font-black" style={{ color: game.color }}>
+                    {formatCurrency(selectedProduct.price)}
+                  </div>
+                </div>
+              )}
 
-          {/* ── Paket Dipilih (summary) + Tombol Konfirmasi ── */}
-          <div>
-            {/* Paket dipilih (summary) */}
-            {selectedProduct && (
-              <div
-                className="rounded-2xl p-3 mb-4 flex items-center justify-between"
-                style={{ background: `${game.color}12`, border: `1.5px solid ${game.color}35` }}
+              {/* Tombol Konfirmasi — fallback manual jika auto-advance tidak terpicu */}
+              <button
+                id="btn-order-now"
+                onClick={() => { setSuccessInvoiceId(null); handleOrder(); }}
+                disabled={isSubmitting || !gameId.trim() || !username.trim() || !whatsapp.trim() || !selectedProduct}
+                className="w-full flex items-center justify-center gap-2 text-base font-bold py-4 rounded-2xl transition-all hover:opacity-90"
+                style={{
+                  background: (gameId.trim() && username.trim() && whatsapp.trim() && selectedProduct)
+                    ? `linear-gradient(135deg, ${game.color}, ${game.color}cc)`
+                    : "var(--bg-secondary)",
+                  color: (gameId.trim() && username.trim() && whatsapp.trim() && selectedProduct) ? "#0f172a" : "var(--text-muted)",
+                  boxShadow: (gameId.trim() && username.trim() && whatsapp.trim() && selectedProduct) ? `0 4px 20px ${game.color}30` : "none",
+                  cursor: (gameId.trim() && username.trim() && whatsapp.trim() && selectedProduct) ? "pointer" : "not-allowed",
+                }}
               >
-                <div>
-                  <div className="text-xs font-semibold mb-0.5" style={{ color: "var(--text-muted)" }}>Paket dipilih</div>
-                  <div className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>{selectedProduct.name}</div>
-                </div>
-                <div className="text-base font-black" style={{ color: game.color }}>
-                  {formatCurrency(selectedProduct.price)}
-                </div>
-              </div>
-            )}
-
-            {/* Tombol Konfirmasi — fallback manual jika auto-advance tidak terpicu */}
-            <button
-              id="btn-order-now"
-              onClick={() => { setSuccessInvoiceId(null); handleOrder(); }}
-              disabled={isSubmitting || !gameId.trim() || !username.trim() || !whatsapp.trim() || !selectedProduct}
-              className="w-full flex items-center justify-center gap-2 text-base font-bold py-4 rounded-2xl transition-all hover:opacity-90"
-              style={{
-                background: (gameId.trim() && username.trim() && whatsapp.trim() && selectedProduct)
-                  ? `linear-gradient(135deg, ${game.color}, ${game.color}cc)`
-                  : "var(--bg-secondary)",
-                color: (gameId.trim() && username.trim() && whatsapp.trim() && selectedProduct) ? "#0f172a" : "var(--text-muted)",
-                boxShadow: (gameId.trim() && username.trim() && whatsapp.trim() && selectedProduct) ? `0 4px 20px ${game.color}30` : "none",
-                cursor: (gameId.trim() && username.trim() && whatsapp.trim() && selectedProduct) ? "pointer" : "not-allowed",
-              }}
-            >
-              {isSubmitting
-                ? <Loader2 size={18} className="animate-spin" />
-                : <ChevronRight size={18} />}
-              {!gameId.trim() || !username.trim() || !whatsapp.trim()
-                ? "Isi data kamu terlebih dahulu"
-                : !selectedProduct
-                  ? "Pilih paket terlebih dahulu"
-                  : "Cek & Konfirmasi Pesanan"}
-            </button>
-          </div> {/* end submit */}
+                {isSubmitting
+                  ? <Loader2 size={18} className="animate-spin" />
+                  : <ChevronRight size={18} />}
+                {!gameId.trim() || !username.trim() || !whatsapp.trim()
+                  ? "Isi data kamu terlebih dahulu"
+                  : !selectedProduct
+                    ? "Pilih paket terlebih dahulu"
+                    : "Cek & Konfirmasi Pesanan"}
+              </button>
+            </div> {/* end submit */}
 
           </div> {/* end step wrapper */}
 

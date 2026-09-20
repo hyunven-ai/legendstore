@@ -13,7 +13,7 @@ const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE
 async function main() {
   const settings = {
     id: 1,
-    meta_title: 'RAJA DIGITAL',
+    meta_title: 'legend store',
     meta_description: 'Platform top-up game',
     meta_keywords: 'top up',
     ga_script: '',
@@ -25,11 +25,11 @@ async function main() {
     wa2_widget_number: '628123456780',
     wa2_widget_label: 'Chat Admin 2',
     wa2_widget_enabled: true,
-    tg_widget_username: 'rajadigital',
+    tg_widget_username: 'legendstore',
     tg_widget_label: 'Telegram',
     tg_widget_enabled: false,
   };
-  
+
   const safeFields = {
     id: 1,
     meta_title: settings.meta_title,

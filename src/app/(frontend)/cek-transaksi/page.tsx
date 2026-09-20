@@ -402,7 +402,7 @@ function CekTransaksiContent() {
                   <div className="font-semibold mb-1">✅ Transaksi Berhasil!</div>
                   <div className="text-xs opacity-80">
                     Diamond/Koin sudah masuk ke akun Game ID <strong>{tx.game_id}</strong>.
-                    Terima kasih telah berbelanja di RAJA DIGITAL!
+                    Terima kasih telah berbelanja di LEGEND STORE!
                   </div>
                 </div>
               )}

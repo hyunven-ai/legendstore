@@ -51,23 +51,36 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Ukuran file melebihi 5MB." }, { status: 400 });
     }
 
-    const db        = createServerSupabase();
     const ext       = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
     const slug      = file.name.replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
     const timestamp = Date.now();
     const filePath  = `${folder}/${timestamp}-${slug}.${ext}`;
     const bytes     = await file.arrayBuffer();
+    const db        = createServerSupabase();
 
-    // Upload to Supabase Storage
-    const { error: uploadErr } = await db.storage
-      .from(BUCKET)
-      .upload(filePath, bytes, { contentType: file.type, upsert: false });
+    let publicUrl: string;
 
-    if (uploadErr) throw uploadErr;
+    // 1. Coba upload ke Cloudflare R2 jika dikonfigurasi
+    const { isR2Configured, uploadToR2 } = await import("@/lib/r2");
+    if (isR2Configured) {
+      const res = await uploadToR2({
+        key: `gallery/${filePath}`,
+        buffer: Buffer.from(bytes),
+        contentType: file.type,
+      });
+      publicUrl = res.url;
+    } else {
+      // 2. Fallback ke Supabase Storage
+      const { error: uploadErr } = await db.storage
+        .from(BUCKET)
+        .upload(filePath, bytes, { contentType: file.type, upsert: false });
 
-    // Get public URL
-    const { data: urlData } = db.storage.from(BUCKET).getPublicUrl(filePath);
-    const publicUrl = urlData.publicUrl;
+      if (uploadErr) throw uploadErr;
+
+      // Get public URL
+      const { data: urlData } = db.storage.from(BUCKET).getPublicUrl(filePath);
+      publicUrl = urlData.publicUrl;
+    }
 
     // Save metadata to DB
     const { data: img, error: dbErr } = await db

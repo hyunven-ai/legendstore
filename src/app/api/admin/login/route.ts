@@ -5,7 +5,7 @@ import { SignJWT } from "jose";
 import bcrypt from "bcryptjs";
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET ?? "rajadigital-secret-change-in-production"
+  process.env.JWT_SECRET ?? "legendstore-secret-change-in-production"
 );
 
 export async function POST(req: Request) {
@@ -85,10 +85,10 @@ export async function POST(req: Request) {
     console.error("Admin login error:", err);
     // Fallback untuk development jika Supabase belum dikonfigurasi
     const { username, password } = await req.json().catch(() => ({}));
-    if (username === "admin" && password === "admin123") {
+    if ((username === "admin" || username === "superadmin") && password === "admin123") {
       return NextResponse.json({
         token: "dev-token",
-        username: "admin",
+        username: username,
         role: "superadmin",
       });
     }

@@ -87,7 +87,7 @@ export function buildWhatsAppMessage(data: {
       ];
 
   const message = [
-    "🛒 *ORDER RAJA DIGITAL* 🛒",
+    "🛒 *ORDER LEGEND STORE* 🛒",
     "",
     `📋 Invoice ID: *${data.invoiceId}*`,
     `🎮 Game: *${data.gameName}*`,
@@ -99,7 +99,7 @@ export function buildWhatsAppMessage(data: {
     "",
     ...paymentSection,
     "",
-    "Terima kasih telah memesan di *RAJA DIGITAL*! 🙏",
+    "Terima kasih telah memesan di *LEGEND STORE*! 🙏",
   ].join("\n");
 
   return encodeURIComponent(message);

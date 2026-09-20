@@ -210,7 +210,7 @@ async function testUpload() {
 
 // ── Main ────────────────────────────────────────────────────────────────────
 async function main() {
-  const tableOk  = await createTable();
+  const tableOk = await createTable();
   const bucketOk = await createBucket();
 
   if (bucketOk) {
@@ -219,7 +219,7 @@ async function main() {
 
   console.log("═".repeat(60));
   console.log("📊 HASIL SETUP:");
-  console.log(`   Tabel gallery_images : ${tableOk  ? "✅ OK" : "❌ Perlu dibuat manual"}`);
+  console.log(`   Tabel gallery_images : ${tableOk ? "✅ OK" : "❌ Perlu dibuat manual"}`);
   console.log(`   Bucket storage       : ${bucketOk ? "✅ OK" : "❌ Perlu dibuat manual"}`);
   console.log("═".repeat(60));
 
@@ -227,7 +227,7 @@ async function main() {
     console.log("\n📌 Langkah selanjutnya:");
     if (!tableOk) {
       console.log("   1. Buka https://supabase.com/dashboard");
-      console.log("   2. Pilih project rajadigital");
+      console.log("   2. Pilih project legendstore");
       console.log("   3. Klik SQL Editor > New Query");
       console.log("   4. Copy-paste SQL di atas, lalu Run");
     }

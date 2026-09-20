@@ -4,15 +4,15 @@ import Image from "next/image";
 import { Shield, Zap, Clock, Trophy, Users, Star } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Tentang Kami | Raja Digital",
-  description: "Kenali lebih dekat Raja Digital — platform top-up game terpercaya dengan harga terbaik, proses instan, dan pelayanan 24 jam untuk gamers Indonesia.",
+  title: "Tentang Kami | Legend Store",
+  description: "Kenali lebih dekat Legend Store — platform top-up game terpercaya dengan harga terbaik, proses instan, dan pelayanan 24 jam untuk gamers Indonesia.",
 };
 
 const stats = [
-  { icon: Users,  value: "10.000+", label: "Pelanggan Puas",    color: "#3b82f6" },
-  { icon: Trophy, value: "50.000+", label: "Transaksi Sukses",  color: "#fbbf24" },
-  { icon: Star,   value: "4.9/5",   label: "Rating Pelanggan",  color: "#a78bfa" },
-  { icon: Clock,  value: "24/7",    label: "Layanan Aktif",     color: "#10b981" },
+  { icon: Users, value: "10.000+", label: "Pelanggan Puas", color: "#3b82f6" },
+  { icon: Trophy, value: "50.000+", label: "Transaksi Sukses", color: "#fbbf24" },
+  { icon: Star, value: "4.9/5", label: "Rating Pelanggan", color: "#a78bfa" },
+  { icon: Clock, value: "24/7", label: "Layanan Aktif", color: "#10b981" },
 ];
 
 const values = [
@@ -59,8 +59,8 @@ export default function TentangKamiPage() {
         }} />
 
         <Image
-          src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778049885/logo-raja-digital-webp_hwu82q.webp"
-          alt="RAJA DIGITAL"
+          src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1789888684/logo-crop_wgthak.webp"
+          alt="LEGEND STORE"
           width={180}
           height={64}
           style={{ objectFit: "contain", height: 56, width: "auto", margin: "0 auto 20px" }}
@@ -72,7 +72,7 @@ export default function TentangKamiPage() {
           margin: "0 0 12px",
           fontFamily: "var(--font-outfit, sans-serif)",
         }}>
-          Tentang <span style={{ color: "#fbbf24" }}>Raja Digital</span>
+          Tentang <span style={{ color: "#fbbf24" }}>Legend Store</span>
         </h1>
         <p style={{
           fontSize: 15,
@@ -81,7 +81,7 @@ export default function TentangKamiPage() {
           margin: "0 auto",
           lineHeight: 1.75,
         }}>
-          Raja Digital adalah platform top-up game online terpercaya yang hadir untuk memenuhi
+          Legend Store adalah platform top-up game online terpercaya yang hadir untuk memenuhi
           kebutuhan para gamer Indonesia dengan harga terjangkau, proses cepat, dan pelayanan
           24 jam sehari, 7 hari seminggu.
         </p>

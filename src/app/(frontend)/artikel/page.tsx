@@ -3,8 +3,8 @@ import Link from "next/link";
 import { BookOpen, Clock, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Artikel & Tips Top Up Game | Raja Digital",
-  description: "Kumpulan artikel, tips, dan panduan seputar top-up game online di Raja Digital. Temukan informasi terbaru seputar game favoritmu.",
+  title: "Artikel & Tips Top Up Game | Legend Store",
+  description: "Kumpulan artikel, tips, dan panduan seputar top-up game online di Legend Store. Temukan informasi terbaru seputar game favoritmu.",
 };
 
 const articles = [
@@ -12,7 +12,7 @@ const articles = [
     id: 1,
     slug: "cara-topup-royal-dream",
     title: "Cara Top Up Royal Dream dengan Mudah dan Cepat",
-    excerpt: "Panduan lengkap cara melakukan top-up Royal Dream di Raja Digital. Proses hanya 1–2 menit, langsung masuk ke akunmu.",
+    excerpt: "Panduan lengkap cara melakukan top-up Royal Dream di Legend Store. Proses hanya 1–2 menit, langsung masuk ke akunmu.",
     category: "Panduan",
     readTime: "3 menit",
     date: "10 Mei 2026",
@@ -23,7 +23,7 @@ const articles = [
     id: 2,
     slug: "tips-hemat-topup-game",
     title: "5 Tips Hemat Saat Top Up Game Online",
-    excerpt: "Ingin top-up game lebih hemat? Simak tips dan trik dari Raja Digital agar diamond atau koin game-mu makin banyak dengan budget minimal.",
+    excerpt: "Ingin top-up game lebih hemat? Simak tips dan trik dari Legend Store agar diamond atau koin game-mu makin banyak dengan budget minimal.",
     category: "Tips",
     readTime: "4 menit",
     date: "8 Mei 2026",
@@ -33,8 +33,8 @@ const articles = [
   {
     id: 3,
     slug: "kenapa-harus-topup-di-raja-digital",
-    title: "Kenapa Harus Top Up di Raja Digital?",
-    excerpt: "Temukan alasan mengapa ribuan gamer Indonesia mempercayakan top-up game mereka kepada Raja Digital. Aman, cepat, dan harga terbaik.",
+    title: "Kenapa Harus Top Up di Legend Store?",
+    excerpt: "Temukan alasan mengapa ribuan gamer Indonesia mempercayakan top-up game mereka kepada Legend Store. Aman, cepat, dan harga terbaik.",
     category: "Info",
     readTime: "2 menit",
     date: "5 Mei 2026",

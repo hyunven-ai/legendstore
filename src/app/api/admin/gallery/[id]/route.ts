@@ -22,8 +22,14 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
       return NextResponse.json({ error: "Gambar tidak ditemukan" }, { status: 404 });
     }
 
-    // Remove from storage
-    await db.storage.from(BUCKET).remove([img.file_path]);
+    // Remove from R2 if configured
+    const { deleteFromR2 } = await import("@/lib/r2");
+    await deleteFromR2(`gallery/${img.file_path}`);
+
+    // Remove from Supabase storage (fallback)
+    try {
+      await db.storage.from(BUCKET).remove([img.file_path]);
+    } catch { /* ignore */ }
 
     // Remove from DB
     const { error } = await db.from("gallery_images").delete().eq("id", id);

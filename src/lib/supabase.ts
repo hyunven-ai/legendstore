@@ -86,17 +86,42 @@ export async function createTransaction(payload: {
   const db = createServerSupabase();
   const insertPayload: any = { ...payload };
   
-  // Jika database belum di-migrate, simpan username ke notes
-  if (insertPayload.username) {
-    insertPayload.notes = `Nama Pengguna: ${insertPayload.username}`;
-    delete insertPayload.username;
-  }
+  // Karena struktur database belum menampung `username` sebagai kolom terpisah di semua versi,
+  // kita simpan `username` ke dalam kolom `notes` menggunakan format JSON 
+  // agar selaras dengan `parseNotes` di Admin Panel.
+  const notesObj: any = {
+    username: insertPayload.username ?? "",
+    notes: ""
+  };
+  delete insertPayload.username;
 
-  const { data, error } = await db
+  insertPayload.notes = JSON.stringify(notesObj);
+
+  // Coba insert pertama
+  let { data, error } = await db
     .from("transactions")
     .insert(insertPayload)
     .select()
     .single();
+
+  // Jika kolom payment_proof belum ada di tabel Supabase
+  if (error && (error.message?.includes("payment_proof") || error.code === "PGRST204")) {
+    if (insertPayload.payment_proof) {
+      notesObj.notes = `Bukti Transfer: ${insertPayload.payment_proof}`;
+      insertPayload.notes = JSON.stringify(notesObj);
+      delete insertPayload.payment_proof;
+    }
+
+    const retry = await db
+      .from("transactions")
+      .insert(insertPayload)
+      .select()
+      .single();
+
+    data = retry.data;
+    error = retry.error;
+  }
+
   if (error) throw error;
   return data as Transaction;
 }
@@ -146,7 +171,16 @@ export async function updateTransactionStatus(id: string, status: string, is_pro
     update.processed_at = new Date().toISOString();
   }
 
-  const { error } = await db.from("transactions").update(update).eq("id", id);
+  let { error } = await db.from("transactions").update(update).eq("id", id);
+
+  // Fallback jika database belum di-migrate dengan kolom processed_by / processed_at
+  if (error && (error.message?.includes("processed_at") || error.message?.includes("processed_by") || error.code === "PGRST204")) {
+    delete update.processed_by;
+    delete update.processed_at;
+    const retry = await db.from("transactions").update(update).eq("id", id);
+    error = retry.error;
+  }
+
   if (error) throw error;
 }
 

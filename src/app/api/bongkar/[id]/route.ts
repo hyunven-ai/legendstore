@@ -6,7 +6,7 @@ type Params = { params: Promise<{ id: string }> };
 import { jwtVerify } from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET ?? "rajadigital-secret-change-in-production"
+  process.env.JWT_SECRET ?? "legendstore-secret-change-in-production"
 );
 
 async function getAdminFromRequest(req: NextRequest) {
@@ -15,7 +15,7 @@ async function getAdminFromRequest(req: NextRequest) {
     const token = auth.replace("Bearer ", "").trim();
     if (!token || token === "dev-token") return { username: "admin", role: "superadmin" };
     const { payload } = await jwtVerify(token, JWT_SECRET);
-    return { 
+    return {
       username: String(payload.username ?? "admin"),
       role: String(payload.role ?? ""),
     };
@@ -41,10 +41,10 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     const admin = await getAdminFromRequest(req);
     const db = createServerSupabase();
     const updateData: Record<string, unknown> = {};
-    if (status !== undefined)              updateData.status              = status;
-    if (admin_notes !== undefined)         updateData.admin_notes         = admin_notes;
-    if (nominal_pembayaran !== undefined)  updateData.nominal_pembayaran  = nominal_pembayaran;
-    
+    if (status !== undefined) updateData.status = status;
+    if (admin_notes !== undefined) updateData.admin_notes = admin_notes;
+    if (nominal_pembayaran !== undefined) updateData.nominal_pembayaran = nominal_pembayaran;
+
     // update logs details
     updateData.processed_by = admin.username;
     updateData.processed_at = new Date().toISOString();
@@ -94,20 +94,20 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 
     // Log activity (non-blocking)
     db.from("activity_logs").insert({
-      admin_id:       null,
+      admin_id: null,
       admin_username: admin.username,
-      action:         "DELETE_BONGKAR_CHIP",
+      action: "DELETE_BONGKAR_CHIP",
       details: JSON.stringify({
-        request_id:     id,
-        invoice_id:     row.invoice_id,
-        player_id:      row.player_id,
+        request_id: id,
+        invoice_id: row.invoice_id,
+        player_id: row.player_id,
         nominal_bongkar: row.nominal_bongkar,
-        bank:           row.bank,
+        bank: row.bank,
         nomor_rekening: row.nomor_rekening,
-        nama_rekening:  row.nama_rekening,
-        whatsapp:       row.whatsapp,
-        status:         row.status,
-        deleted_at:     new Date().toISOString(),
+        nama_rekening: row.nama_rekening,
+        whatsapp: row.whatsapp,
+        status: row.status,
+        deleted_at: new Date().toISOString(),
       }),
     }).then(({ error }) => { if (error) console.error("⚠️ Log bongkar gagal:", error.message); });
 

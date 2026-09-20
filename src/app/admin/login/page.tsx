@@ -61,7 +61,7 @@ export default function AdminLoginPage() {
             <h1 className="text-2xl font-black text-white" style={{ fontFamily: "var(--font-outfit)" }}>
               Admin Login
             </h1>
-            <p className="text-sm mt-1" style={{ color: "#94a3b8" }}>RAJA DIGITAL Panel</p>
+            <p className="text-sm mt-1" style={{ color: "#94a3b8" }}>LEGEND STORE Panel</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">

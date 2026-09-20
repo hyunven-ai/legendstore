@@ -1,7 +1,6 @@
 -- =====================================================
--- RAJA DIGITAL — Supabase PostgreSQL Schema
--- Jalankan file ini di Supabase SQL Editor
--- Dashboard > SQL Editor > New Query > Paste > Run
+-- LEGEND STORE — Supabase PostgreSQL Schema
+-- Jalankan skrip ini di SQL Editor dashboard Supabase
 -- =====================================================
 
 -- Enable UUID extension
@@ -100,7 +99,7 @@ CREATE TABLE IF NOT EXISTS admins (
 -- =====================================================
 CREATE TABLE IF NOT EXISTS seo_settings (
   id               UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  meta_title       TEXT NOT NULL DEFAULT 'RAJA DIGITAL — Top-Up Royal Dream',
+  meta_title       TEXT NOT NULL DEFAULT 'LEGEND STORE — Top-Up Royal Dream',
   meta_description TEXT NOT NULL DEFAULT 'Platform top-up game terpercaya.',
   meta_keywords    TEXT,
   og_image         TEXT,
@@ -224,9 +223,9 @@ ON CONFLICT DO NOTHING;
 -- Seed: Default SEO settings
 INSERT INTO seo_settings (meta_title, meta_description, meta_keywords) VALUES
   (
-    'RAJA DIGITAL — Top-Up Royal Dream Terpercaya',
+    'LEGEND STORE — Top-Up Royal Dream Terpercaya',
     'Platform top-up Diamond dan Koin Royal Dream terpercaya. Harga terjangkau, proses cepat, layanan 24 jam.',
-    'raja digital, top up royal dream, diamond royal dream, koin royal dream, top up game murah'
+    'legend store, legendstore, top up royal dream, diamond royal dream, koin royal dream, top up game murah'
   )
 ON CONFLICT DO NOTHING;
 
@@ -234,7 +233,7 @@ ON CONFLICT DO NOTHING;
 -- ⚠️  PENTING: Ganti password_hash ini sebelum production!
 -- Generate hash dengan: SELECT crypt('password_kamu', gen_salt('bf')) dari Supabase
 INSERT INTO admins (username, email, password_hash, role) VALUES
-  ('superadmin', 'admin@rajadigital.com', '$2a$10$placeholder_change_this_in_production', 'superadmin')
+  ('superadmin', 'admin@legendstore.com', '$2a$10$placeholder_change_this_in_production', 'superadmin')
 ON CONFLICT DO NOTHING;
 
 -- =====================================================
@@ -282,3 +281,20 @@ BEGIN
   RETURN QUERY SELECT v_wa.id, v_wa.label, v_wa.number;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- =====================================================
+-- SEED DATA (Default Superadmin)
+-- =====================================================
+INSERT INTO admins (username, email, password_hash, role, is_active)
+VALUES (
+  'superadmin',
+  'superadmin@legendstore.com',
+  '$2b$10$TWvAttvrGtZZ6xtshY8vRuVDQCIvJRuAircnHaAviXoWKqL8GvPD6', -- password: admin123
+  'superadmin',
+  true
+)
+ON CONFLICT (username) DO UPDATE
+SET password_hash = EXCLUDED.password_hash,
+    role = 'superadmin',
+    is_active = true;
+

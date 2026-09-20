@@ -18,24 +18,24 @@ interface RunningTextConfig {
 }
 
 interface WaNumber { id: string; label: string; number: string; is_active: boolean; sort_order: number; }
-interface QrisItem  { id: string; label: string; image_url: string; is_active: boolean; sort_order: number; created_at: string; }
+interface QrisItem { id: string; label: string; image_url: string; is_active: boolean; sort_order: number; created_at: string; }
 
 const INIT_WA: WaNumber[] = [
-  { id: "1", label: "Admin Utama",  number: "6281234567890", is_active: true,  sort_order: 1 },
-  { id: "2", label: "Admin Backup", number: "6281234567891", is_active: true,  sort_order: 2 },
+  { id: "1", label: "Admin Utama", number: "6281234567890", is_active: true, sort_order: 1 },
+  { id: "2", label: "Admin Backup", number: "6281234567891", is_active: true, sort_order: 2 },
 ];
 
 export default function AdminSettingsPage() {
   /* ── WA state ── */
   const [waNumbers, setWaNumbers] = useState<WaNumber[]>(INIT_WA);
-  const [newWa,     setNewWa]     = useState({ label: "", number: "" });
+  const [newWa, setNewWa] = useState({ label: "", number: "" });
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editForm,  setEditForm]  = useState({ label: "", number: "" });
-  const [waSaving,  setWaSaving]  = useState(false);
+  const [editForm, setEditForm] = useState({ label: "", number: "" });
+  const [waSaving, setWaSaving] = useState(false);
 
   /* ── SEO state ── */
   const [seo, setSeo] = useState({
-    meta_title: "RAJA DIGITAL — Top-Up Royal Dream",
+    meta_title: "LEGEND STORE — Top-Up Royal Dream",
     meta_description: "Platform top-up game terpercaya.",
     meta_keywords: "top up, royal dream, diamond, koin",
     ga_script: "", pixel_script: "", widget_script: "",
@@ -56,55 +56,55 @@ export default function AdminSettingsPage() {
   });
 
   /* ── QRIS state ── */
-  const [qrisList,    setQrisList]    = useState<QrisItem[]>([]);
+  const [qrisList, setQrisList] = useState<QrisItem[]>([]);
   const [qrisLoading, setQrisLoading] = useState(false);
-  const [qrisSaving,  setQrisSaving]  = useState(false);
+  const [qrisSaving, setQrisSaving] = useState(false);
   const [newQrisLabel, setNewQrisLabel] = useState("");
-  const [newQrisUrl,   setNewQrisUrl]   = useState("");
-  const [previewUrl,   setPreviewUrl]   = useState("");
+  const [newQrisUrl, setNewQrisUrl] = useState("");
+  const [previewUrl, setPreviewUrl] = useState("");
 
   /* ── Color Theme state ── */
   const PRESET_THEMES: ColorTheme[] = [
     {
-      id: "royal-gold",      name: "👑 Royal Gold (Default)",
-      gold: "#c8961a",       goldDark: "#9e720f",     goldLight: "#f5c842",
-      purple: "#6d28d9",     purpleDark: "#4c1d95",   purpleLight: "#8b5cf6",
-      amber: "#d4780d",      amberLight: "#ff9f1c",
+      id: "royal-gold", name: "👑 Royal Gold (Default)",
+      gold: "#c8961a", goldDark: "#9e720f", goldLight: "#f5c842",
+      purple: "#6d28d9", purpleDark: "#4c1d95", purpleLight: "#8b5cf6",
+      amber: "#d4780d", amberLight: "#ff9f1c",
       bgPrimaryDark: "#0a0a14", bgSecondaryDark: "#12111f", bgCardDark: "#1a1828",
     },
     {
-      id: "emerald-royal",   name: "💚 Emerald Royal",
-      gold: "#10b981",       goldDark: "#059669",     goldLight: "#34d399",
-      purple: "#6d28d9",     purpleDark: "#4c1d95",   purpleLight: "#8b5cf6",
-      amber: "#0d9488",      amberLight: "#14b8a6",
+      id: "emerald-royal", name: "💚 Emerald Royal",
+      gold: "#10b981", goldDark: "#059669", goldLight: "#34d399",
+      purple: "#6d28d9", purpleDark: "#4c1d95", purpleLight: "#8b5cf6",
+      amber: "#0d9488", amberLight: "#14b8a6",
       bgPrimaryDark: "#030f0a", bgSecondaryDark: "#051a10", bgCardDark: "#082218",
     },
     {
-      id: "ocean-blue",      name: "🌊 Ocean Blue",
-      gold: "#3b82f6",       goldDark: "#1d4ed8",     goldLight: "#60a5fa",
-      purple: "#0ea5e9",     purpleDark: "#0284c7",   purpleLight: "#38bdf8",
-      amber: "#2563eb",      amberLight: "#3b82f6",
+      id: "ocean-blue", name: "🌊 Ocean Blue",
+      gold: "#3b82f6", goldDark: "#1d4ed8", goldLight: "#60a5fa",
+      purple: "#0ea5e9", purpleDark: "#0284c7", purpleLight: "#38bdf8",
+      amber: "#2563eb", amberLight: "#3b82f6",
       bgPrimaryDark: "#020818", bgSecondaryDark: "#060f24", bgCardDark: "#0c1832",
     },
     {
-      id: "rose-crimson",    name: "🌹 Rose Crimson",
-      gold: "#f43f5e",       goldDark: "#be123c",     goldLight: "#fb7185",
-      purple: "#e11d48",     purpleDark: "#9f1239",   purpleLight: "#f472b6",
-      amber: "#ef4444",      amberLight: "#f87171",
+      id: "rose-crimson", name: "🌹 Rose Crimson",
+      gold: "#f43f5e", goldDark: "#be123c", goldLight: "#fb7185",
+      purple: "#e11d48", purpleDark: "#9f1239", purpleLight: "#f472b6",
+      amber: "#ef4444", amberLight: "#f87171",
       bgPrimaryDark: "#14020a", bgSecondaryDark: "#200510", bgCardDark: "#2d0818",
     },
     {
-      id: "sunset-orange",   name: "🌅 Sunset Orange",
-      gold: "#f97316",       goldDark: "#c2410c",     goldLight: "#fb923c",
-      purple: "#dc2626",     purpleDark: "#991b1b",   purpleLight: "#f87171",
-      amber: "#ea580c",      amberLight: "#f97316",
+      id: "sunset-orange", name: "🌅 Sunset Orange",
+      gold: "#f97316", goldDark: "#c2410c", goldLight: "#fb923c",
+      purple: "#dc2626", purpleDark: "#991b1b", purpleLight: "#f87171",
+      amber: "#ea580c", amberLight: "#f97316",
       bgPrimaryDark: "#140802", bgSecondaryDark: "#1f1005", bgCardDark: "#2b160a",
     },
     {
-      id: "neon-cyber",      name: "⚡ Neon Cyber",
-      gold: "#a3e635",       goldDark: "#65a30d",     goldLight: "#d9f99d",
-      purple: "#8b5cf6",     purpleDark: "#6d28d9",   purpleLight: "#c4b5fd",
-      amber: "#06b6d4",      amberLight: "#22d3ee",
+      id: "neon-cyber", name: "⚡ Neon Cyber",
+      gold: "#a3e635", goldDark: "#65a30d", goldLight: "#d9f99d",
+      purple: "#8b5cf6", purpleDark: "#6d28d9", purpleLight: "#c4b5fd",
+      amber: "#06b6d4", amberLight: "#22d3ee",
       bgPrimaryDark: "#030705", bgSecondaryDark: "#071209", bgCardDark: "#0d1f10",
     },
   ];
@@ -130,8 +130,8 @@ export default function AdminSettingsPage() {
   const [newRtEmoji, setNewRtEmoji] = useState("🔥");
 
   /* ── Global ── */
-  const [saved,      setSaved]      = useState(false);
-  const [activeTab,  setActiveTab]  = useState<"wa" | "seo" | "widget" | "qris" | "theme" | "runtext">("wa");
+  const [saved, setSaved] = useState(false);
+  const [activeTab, setActiveTab] = useState<"wa" | "seo" | "widget" | "qris" | "theme" | "runtext">("wa");
 
   /* ── Load all data on mount ── */
   useEffect(() => {
@@ -139,7 +139,7 @@ export default function AdminSettingsPage() {
     fetch("/api/wa-number?all=true")
       .then((r) => r.json())
       .then((d) => { if (d.list?.length) setWaNumbers(d.list); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Load SEO + widget settings
     fetch("/api/settings")
@@ -167,27 +167,27 @@ export default function AdminSettingsPage() {
           tg_widget_enabled: s.tg_widget_enabled ?? false,
         });
       })
-      .catch(() => {});
+      .catch(() => { });
 
     // Load QRIS
     setQrisLoading(true);
     fetch("/api/qris?all=true")
       .then((r) => r.json())
       .then((d) => setQrisList(d.list ?? []))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setQrisLoading(false));
 
     // Load color theme
     fetch(`/api/theme?t=${Date.now()}`)
       .then((r) => r.json())
       .then(({ theme }) => { if (theme?.id) setColorTheme(theme); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Load Running Text
     fetch(`/api/running-text?t=${Date.now()}`)
       .then((r) => r.json())
       .then(({ config }) => { if (config) setRt(config); })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   /* ── WA handlers ── */
@@ -285,7 +285,7 @@ export default function AdminSettingsPage() {
     if (qrisList.length === 0) { alert("Tambahkan minimal 1 QRIS terlebih dahulu"); return; }
     setQrisSaving(true);
     try {
-      const res  = await fetch("/api/qris", {
+      const res = await fetch("/api/qris", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ list: qrisList }),
@@ -294,7 +294,7 @@ export default function AdminSettingsPage() {
       if (!res.ok || !data.ok) throw new Error(data.error ?? "Gagal menyimpan");
       // Reload from server to confirm
       const reload = await fetch("/api/qris?all=true");
-      const rd     = await reload.json();
+      const rd = await reload.json();
       if (rd.list) setQrisList(rd.list);
       setSaved(true); setTimeout(() => setSaved(false), 2500);
     } catch (err) {
@@ -362,7 +362,7 @@ export default function AdminSettingsPage() {
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error ?? "Gagal menyimpan tema");
       // Clear localStorage cache so all pages reload the new theme
-      try { localStorage.removeItem("rajadigital_color_theme"); } catch {}
+      try { localStorage.removeItem("legendstore_color_theme"); } catch { }
       applyThemeToDom(colorTheme);
       setThemePreview(null);
       setSaved(true); setTimeout(() => setSaved(false), 2500);
@@ -372,12 +372,12 @@ export default function AdminSettingsPage() {
   };
 
   const tabs = [
-    { key: "wa",      label: "WhatsApp",       icon: Phone   },
-    { key: "seo",     label: "SEO & Meta",     icon: Globe   },
-    { key: "widget",  label: "Widget",          icon: Code    },
-    { key: "qris",    label: "QRIS Barcode",   icon: QrCode  },
-    { key: "theme",   label: "Tema Warna",      icon: Palette },
-    { key: "runtext", label: "Running Text",   icon: Type    },
+    { key: "wa", label: "WhatsApp", icon: Phone },
+    { key: "seo", label: "SEO & Meta", icon: Globe },
+    { key: "widget", label: "Widget", icon: Code },
+    { key: "qris", label: "QRIS Barcode", icon: QrCode },
+    { key: "theme", label: "Tema Warna", icon: Palette },
+    { key: "runtext", label: "Running Text", icon: Type },
   ];
 
   /* ── Running Text handlers ── */
@@ -529,9 +529,9 @@ export default function AdminSettingsPage() {
         <div className="card p-6 space-y-4">
           <h2 className="font-bold mb-2" style={{ color: "var(--text-primary)" }}>🌐 SEO & Meta Tags</h2>
           {[
-            { key: "meta_title",       label: "Meta Title",       placeholder: "RAJA DIGITAL — Top-Up Royal Dream" },
+            { key: "meta_title", label: "Meta Title", placeholder: "LEGEND STORE — Top-Up Royal Dream" },
             { key: "meta_description", label: "Meta Description", placeholder: "Platform top-up game terpercaya..." },
-            { key: "meta_keywords",    label: "Meta Keywords",    placeholder: "top up, royal dream, diamond" },
+            { key: "meta_keywords", label: "Meta Keywords", placeholder: "top up, royal dream, diamond" },
           ].map((field) => (
             <div key={field.key}>
               <label className="block text-xs font-semibold mb-1.5" style={{ color: "var(--text-secondary)" }}>{field.label}</label>
@@ -666,8 +666,8 @@ export default function AdminSettingsPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold mb-1.5" style={{ color: "var(--text-secondary)" }}>Username Telegram <span style={{color:"var(--text-muted)",fontWeight:400}}>(tanpa @)</span></label>
-                <input id="tg-widget-username" className="input-styled" placeholder="rajadigital"
+                <label className="block text-xs font-semibold mb-1.5" style={{ color: "var(--text-secondary)" }}>Username Telegram <span style={{ color: "var(--text-muted)", fontWeight: 400 }}>(tanpa @)</span></label>
+                <input id="tg-widget-username" className="input-styled" placeholder="legendstore"
                   value={widget.tg_widget_username} onChange={(e) => setWidget({ ...widget, tg_widget_username: e.target.value })} />
               </div>
               <div>
@@ -791,11 +791,11 @@ export default function AdminSettingsPage() {
                   placeholder="URL gambar QRIS (https://...)"
                   value={newQrisUrl}
                   onChange={(e) => {
-                  const val = e.target.value;
-                  setNewQrisUrl(val);
-                  // Only preview if looks like a valid URL
-                  setPreviewUrl(val.startsWith("http") ? val : "");
-                }} />
+                    const val = e.target.value;
+                    setNewQrisUrl(val);
+                    // Only preview if looks like a valid URL
+                    setPreviewUrl(val.startsWith("http") ? val : "");
+                  }} />
               </div>
 
               {/* Preview */}
@@ -847,7 +847,7 @@ export default function AdminSettingsPage() {
                   <div className="w-5 h-5 rounded-full border-2" style={{
                     background: key === "gold" ? colorTheme.goldLight
                       : key === "purple" ? colorTheme.purpleLight
-                      : colorTheme.amberLight,
+                        : colorTheme.amberLight,
                     borderColor: "rgba(255,255,255,0.2)"
                   }} />
                   <span className="text-xs capitalize" style={{ color: "var(--text-muted)" }}>{key}</span>
@@ -914,9 +914,9 @@ export default function AdminSettingsPage() {
               <div className="space-y-3 p-4 rounded-2xl" style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>Warna Aksen 1 (Gold)</p>
                 {([
-                  { key: "goldLight",  label: "Light" },
-                  { key: "gold",       label: "Base"  },
-                  { key: "goldDark",   label: "Dark"  },
+                  { key: "goldLight", label: "Light" },
+                  { key: "gold", label: "Base" },
+                  { key: "goldDark", label: "Dark" },
                 ] as { key: keyof ColorTheme; label: string }[]).map(({ key, label }) => (
                   <div key={key} className="flex items-center gap-3">
                     <input type="color" id={`color-${key}`}
@@ -944,8 +944,8 @@ export default function AdminSettingsPage() {
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>Warna Aksen 2 (Purple)</p>
                 {([
                   { key: "purpleLight", label: "Light" },
-                  { key: "purple",      label: "Base"  },
-                  { key: "purpleDark",  label: "Dark"  },
+                  { key: "purple", label: "Base" },
+                  { key: "purpleDark", label: "Dark" },
                 ] as { key: keyof ColorTheme; label: string }[]).map(({ key, label }) => (
                   <div key={key} className="flex items-center gap-3">
                     <input type="color" id={`color-${key}`}
@@ -973,7 +973,7 @@ export default function AdminSettingsPage() {
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>Warna Aksen 3 (Amber)</p>
                 {([
                   { key: "amberLight", label: "Light" },
-                  { key: "amber",      label: "Base"  },
+                  { key: "amber", label: "Base" },
                 ] as { key: keyof ColorTheme; label: string }[]).map(({ key, label }) => (
                   <div key={key} className="flex items-center gap-3">
                     <input type="color" id={`color-${key}`}
@@ -1000,9 +1000,9 @@ export default function AdminSettingsPage() {
               <div className="space-y-3 p-4 rounded-2xl" style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>Background Dark Mode</p>
                 {([
-                  { key: "bgPrimaryDark",   label: "Primary BG"   },
+                  { key: "bgPrimaryDark", label: "Primary BG" },
                   { key: "bgSecondaryDark", label: "Secondary BG" },
-                  { key: "bgCardDark",      label: "Card BG"      },
+                  { key: "bgCardDark", label: "Card BG" },
                 ] as { key: keyof ColorTheme; label: string }[]).map(({ key, label }) => (
                   <div key={key} className="flex items-center gap-3">
                     <input type="color" id={`color-${key}`}
@@ -1172,11 +1172,11 @@ export default function AdminSettingsPage() {
                 <label className="block text-xs font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>Warna Background</label>
                 <div className="flex gap-3 flex-wrap">
                   {[
-                    { label: "Gold",   val: "#c8961a" },
+                    { label: "Gold", val: "#c8961a" },
                     { label: "Purple", val: "#6d28d9" },
-                    { label: "Teal",   val: "#0d9488" },
-                    { label: "Red",    val: "#dc2626" },
-                    { label: "Dark",   val: "#1a1828" },
+                    { label: "Teal", val: "#0d9488" },
+                    { label: "Red", val: "#dc2626" },
+                    { label: "Dark", val: "#1a1828" },
                   ].map((c) => (
                     <button key={c.val}
                       onClick={() => setRt((p) => ({ ...p, bgColor: c.val }))}
@@ -1203,8 +1203,8 @@ export default function AdminSettingsPage() {
                   {[
                     { label: "Hitam", val: "#0a0a14" },
                     { label: "Putih", val: "#ffffff" },
-                    { label: "Gold",  val: "#f5c842" },
-                    { label: "Krem",  val: "#fef3c7" },
+                    { label: "Gold", val: "#f5c842" },
+                    { label: "Krem", val: "#fef3c7" },
                   ].map((c) => (
                     <button key={c.val}
                       onClick={() => setRt((p) => ({ ...p, textColor: c.val }))}

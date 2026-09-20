@@ -15,6 +15,23 @@ const nextConfig: NextConfig = {
         hostname: "*.supabase.in",
         pathname: "/storage/v1/object/public/**",
       },
+      // Cloudflare R2 Storage (r2.dev, cloudflarestorage.com & custom domain)
+      {
+        protocol: "https",
+        hostname: "*.r2.cloudflarestorage.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.r2.dev",
+      },
+      {
+        protocol: "https",
+        hostname: "legend.gambarku.my.id",
+      },
+      {
+        protocol: "https",
+        hostname: "*.gambarku.my.id",
+      },
       // Cloudinary (opsional)
       {
         protocol: "https",
@@ -28,6 +45,15 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "drive.google.com",
+      },
+      // Local dev server
+      {
+        protocol: "http",
+        hostname: "localhost",
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
       },
     ],
   },

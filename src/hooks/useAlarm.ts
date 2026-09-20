@@ -34,7 +34,7 @@ function getAudioCtx(): AudioContext {
 
 // ─── Generator suara ───────────────────────────────────────────────────────
 function playBeep(ctx: AudioContext, volume: number) {
-  const osc  = ctx.createOscillator();
+  const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.connect(gain);
   gain.connect(ctx.destination);
@@ -51,7 +51,7 @@ function playBeep(ctx: AudioContext, volume: number) {
 function playChime(ctx: AudioContext, volume: number) {
   const notes = [523.25, 659.25, 783.99]; // C5 E5 G5
   notes.forEach((freq, i) => {
-    const osc  = ctx.createOscillator();
+    const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
     gain.connect(ctx.destination);
@@ -69,7 +69,7 @@ function playChime(ctx: AudioContext, volume: number) {
 
 function playUrgent(ctx: AudioContext, volume: number) {
   [0, 0.25, 0.5].forEach((delay) => {
-    const osc  = ctx.createOscillator();
+    const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
     gain.connect(ctx.destination);
@@ -92,21 +92,21 @@ export function useAlarm(getPendingCount: () => number) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("rajadigital-alarm-config");
+      const saved = localStorage.getItem("legendstore-alarm-config");
       if (saved) {
         setConfig((prev) => ({ ...prev, ...JSON.parse(saved) }));
       }
-    } catch {}
+    } catch { }
   }, []);
 
-  const intervalRef  = useRef<ReturnType<typeof setInterval> | null>(null);
-  const unlockedRef  = useRef(false); // AudioContext sudah di-unlock user?
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const unlockedRef = useRef(false); // AudioContext sudah di-unlock user?
 
   /* ── Simpan config ke localStorage ── */
   const updateConfig = useCallback((patch: Partial<AlarmConfig>) => {
     setConfig((prev) => {
       const next = { ...prev, ...patch };
-      localStorage.setItem("rajadigital-alarm-config", JSON.stringify(next));
+      localStorage.setItem("legendstore-alarm-config", JSON.stringify(next));
       return next;
     });
   }, []);
@@ -121,7 +121,7 @@ export function useAlarm(getPendingCount: () => number) {
       if ("Notification" in window && Notification.permission === "default") {
         await Notification.requestPermission();
       }
-    } catch {}
+    } catch { }
   }, []);
 
   /* ── Mainkan suara alarm ── */
@@ -130,8 +130,8 @@ export function useAlarm(getPendingCount: () => number) {
       const ctx = getAudioCtx();
       if (ctx.state === "suspended") ctx.resume();
       switch (config.sound) {
-        case "beep":   playBeep(ctx, config.volume);   break;
-        case "chime":  playChime(ctx, config.volume);  break;
+        case "beep": playBeep(ctx, config.volume); break;
+        case "chime": playChime(ctx, config.volume); break;
         case "urgent": playUrgent(ctx, config.volume); break;
       }
     } catch (err) {
@@ -153,7 +153,7 @@ export function useAlarm(getPendingCount: () => number) {
       try {
         const n = new Notification(title, { body });
         n.onclick = () => { window.focus(); n.close(); };
-      } catch (e) {}
+      } catch (e) { }
     }
   }, [config.enabled, playAlarm]);
 

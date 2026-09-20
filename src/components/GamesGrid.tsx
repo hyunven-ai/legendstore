@@ -24,45 +24,48 @@ export default function GamesGrid({ games }: Props) {
           key={game.slug}
           href={`/games/${game.slug}`}
           id={`game-card-${game.slug}`}
-          className="group relative rounded-2xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl"
+          className="group relative rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-[#c8961a] hover:shadow-[0_0_30px_rgba(200,150,26,0.3)]"
           style={{
-            border: "1px solid var(--border)",
-            willChange: "transform",
+            background: "linear-gradient(145deg, rgba(25,25,35,0.6) 0%, rgba(10,10,20,0.95) 100%)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(200,150,26,0.15)",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.6)",
+            willChange: "transform, box-shadow, border-color",
             contain: "layout",
-            transform: "translateZ(0)", /* GPU layer — isolasi dari layout halaman */
+            transform: "translateZ(0)",
           }}
         >
-          {/* Cover image — aspect-square via padding trick agar tidak ada reflow */}
-          <div className="relative w-full" style={{ paddingBottom: "100%" }}>
+          {/* Cover image — aspect-square */}
+          <div className="relative w-full overflow-hidden" style={{ paddingBottom: "100%" }}>
             <Image
               src={game.cover}
               alt={game.name}
               fill
               unoptimized
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
               priority={false}
             />
-            {/* Gradient overlay */}
+            {/* Dark gradient overlay for text legibility */}
             <div
               className="absolute inset-0"
-              style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%)" }}
+              style={{ background: "linear-gradient(to top, rgba(10,10,20,0.95) 0%, rgba(10,10,20,0.1) 60%, transparent 100%)" }}
             />
 
             {/* Badges */}
-            <div className="absolute top-2 left-2 flex flex-col gap-1">
+            <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
               {game.isHot && (
                 <span
-                  className="text-xs font-bold px-2 py-0.5 rounded-full"
-                  style={{ background: "#ef4444", color: "#fff" }}
+                  className="text-[11px] font-extrabold px-3 py-1 rounded-full shadow-lg tracking-wider"
+                  style={{ background: "linear-gradient(135deg, #ef4444, #991b1b)", color: "#fff", border: "1px solid rgba(239, 68, 68, 0.4)" }}
                 >
                   🔥 HOT
                 </span>
               )}
               {game.isNew && (
                 <span
-                  className="text-xs font-bold px-2 py-0.5 rounded-full"
-                  style={{ background: "#10b981", color: "#fff" }}
+                  className="text-[11px] font-extrabold px-3 py-1 rounded-full shadow-lg tracking-wider"
+                  style={{ background: "linear-gradient(135deg, #10b981, #047857)", color: "#fff", border: "1px solid rgba(16, 185, 129, 0.4)" }}
                 >
                   ✨ NEW
                 </span>
@@ -70,13 +73,13 @@ export default function GamesGrid({ games }: Props) {
             </div>
 
             {/* Currency badge */}
-            <div className="absolute bottom-2 right-2">
+            <div className="absolute bottom-3 right-3 z-10">
               <span
-                className="text-xs font-semibold px-2 py-1 rounded-lg backdrop-blur-sm"
+                className="text-[11px] font-bold px-2.5 py-1 rounded-lg backdrop-blur-md shadow-lg transition-colors group-hover:border-[rgba(200,150,26,0.6)]"
                 style={{
-                  background: `${game.color}30`,
-                  border:     `1px solid ${game.color}60`,
-                  color:       game.color,
+                  background: "rgba(10, 10, 20, 0.8)",
+                  border: `1px solid ${game.color}40`,
+                  color: game.color,
                 }}
               >
                 {game.currencyIcon} {game.currency}
@@ -85,27 +88,27 @@ export default function GamesGrid({ games }: Props) {
           </div>
 
           {/* Info */}
-          <div className="p-3" style={{ background: "var(--bg-card)" }}>
+          <div className="p-4 relative z-10" style={{ background: "transparent" }}>
             <div
-              className="font-bold text-sm leading-tight truncate"
-              style={{ color: "var(--text-primary)" }}
+              className="font-black text-[15px] leading-snug truncate transition-colors duration-300 group-hover:text-[#f5c842]"
+              style={{ color: "#ffffff", fontFamily: "var(--font-outfit)" }}
             >
               {game.name}
             </div>
-            <div className="text-xs mt-0.5 truncate" style={{ color: "var(--text-muted)" }}>
+            <div className="text-xs mt-1 truncate font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>
               {game.publisher}
             </div>
 
-            {/* CTA */}
+            {/* CTA button */}
             <div
-              className="mt-2 text-xs font-semibold text-center py-1.5 rounded-lg transition-all"
+              className="mt-4 text-[13px] font-bold text-center py-2.5 rounded-xl transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(200,150,26,0.4)] group-hover:bg-[rgba(200,150,26,0.15)]"
               style={{
-                background: `${game.color}15`,
-                color:       game.color,
-                border:     `1px solid ${game.color}30`,
+                background: "rgba(200,150,26,0.05)",
+                color: "#f5c842",
+                border: "1px solid rgba(200,150,26,0.25)",
               }}
             >
-              Top Up →
+              Top Up Sekarang
             </div>
           </div>
         </Link>

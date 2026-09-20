@@ -20,13 +20,13 @@ export interface SiteSettings {
   wa2_widget_number: string;    // Second WA floating button
   wa2_widget_label: string;
   wa2_widget_enabled: boolean;
-  tg_widget_username: string;   // Telegram username e.g. "rajadigital"
+  tg_widget_username: string;   // Telegram username e.g. "legendstore"
   tg_widget_label: string;      // e.g. "Join Telegram"
   tg_widget_enabled: boolean;
 }
 
 const DEFAULT: SiteSettings = {
-  meta_title: "RAJA DIGITAL — Top-Up Royal Dream",
+  meta_title: "LEGEND STORE — Top-Up Royal Dream",
   meta_description: "Platform top-up game terpercaya dengan harga terbaik.",
   meta_keywords: "top up, royal dream, diamond, koin, uc, game",
   ga_script: "",

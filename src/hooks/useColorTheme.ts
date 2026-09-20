@@ -18,7 +18,7 @@ export interface ColorTheme {
   bgCardDark: string;
 }
 
-const CACHE_KEY = "rajadigital_color_theme";
+const CACHE_KEY = "legendstore_color_theme";
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 /** Convert a CSS hex color to comma-separated RGB string (e.g. "#f5c842" → "245,200,66") */
@@ -72,7 +72,7 @@ export function useColorTheme() {
           applyThemeToDom(theme);
         }
       }
-    } catch {}
+    } catch { }
 
     // 2. Always fetch fresh from API
     fetch(`/api/theme?t=${Date.now()}`)
@@ -82,8 +82,8 @@ export function useColorTheme() {
         applyThemeToDom(theme);
         try {
           localStorage.setItem(CACHE_KEY, JSON.stringify({ theme, ts: Date.now() }));
-        } catch {}
+        } catch { }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 }

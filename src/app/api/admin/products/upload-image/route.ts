@@ -26,26 +26,39 @@ export async function POST(req: NextRequest) {
 
     const ext      = file.type === "image/webp" ? "webp" : file.type === "image/png" ? "png" : "jpg";
     const filename = `products/${productId}.${ext}`;
+    const buffer   = Buffer.from(await file.arrayBuffer());
 
-    // Upload to Supabase Storage
-    const db     = createServerSupabase();
-    const buffer = Buffer.from(await file.arrayBuffer());
+    let imageUrl: string;
 
-    const { error: uploadError } = await db.storage
-      .from("game-assets")
-      .upload(filename, buffer, {
+    // 1. Coba upload ke Cloudflare R2 jika dikonfigurasi
+    const { isR2Configured, uploadToR2 } = await import("@/lib/r2");
+    if (isR2Configured) {
+      const res = await uploadToR2({
+        key: filename,
+        buffer,
         contentType: file.type,
-        upsert: true,
       });
+      imageUrl = res.url;
+    } else {
+      // 2. Fallback ke Supabase Storage
+      const db = createServerSupabase();
+      const { error: uploadError } = await db.storage
+        .from("game-assets")
+        .upload(filename, buffer, {
+          contentType: file.type,
+          upsert: true,
+        });
 
-    if (uploadError) {
-      console.error("Supabase storage upload error:", uploadError);
-      return NextResponse.json({ error: "Gagal upload ke storage: " + uploadError.message }, { status: 500 });
+      if (uploadError) {
+        console.error("Supabase storage upload error:", uploadError);
+        return NextResponse.json({ error: "Gagal upload ke storage: " + uploadError.message }, { status: 500 });
+      }
+
+      const { data: urlData } = db.storage.from("game-assets").getPublicUrl(filename);
+      imageUrl = urlData.publicUrl;
     }
 
-    // Get public URL
-    const { data: urlData } = db.storage.from("game-assets").getPublicUrl(filename);
-    const imageUrl = urlData.publicUrl;
+    const db = createServerSupabase();
 
     // Update product in Supabase DB
     const { error: dbError } = await db

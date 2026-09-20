@@ -7,34 +7,34 @@ import { Clock, ArrowLeft, ArrowRight, CheckCircle, AlertCircle } from "lucide-r
 const ARTICLES = {
   "cara-topup-royal-dream": {
     title: "Cara Top Up Royal Dream dengan Mudah dan Cepat",
-    description: "Panduan lengkap cara top up Royal Dream di Raja Digital. Langkah demi langkah, proses 1–2 menit, aman dan terpercaya.",
+    description: "Panduan lengkap cara top up Royal Dream di Legend Store. Langkah demi langkah, proses 1–2 menit, aman dan terpercaya.",
     category: "Panduan",
     categoryColor: "#fbbf24",
     readTime: "3 menit",
     date: "10 Mei 2026",
-    author: "Tim Raja Digital",
+    author: "Tim Legend Store",
     emoji: "🎮",
     content: "article1",
   },
   "tips-hemat-topup-game": {
     title: "5 Tips Hemat Saat Top Up Game Online",
-    description: "Ingin top-up game lebih hemat? Simak 5 tips dari Raja Digital agar diamond atau koin game-mu makin banyak dengan budget minimal.",
+    description: "Ingin top-up game lebih hemat? Simak 5 tips dari Legend Store agar diamond atau koin game-mu makin banyak dengan budget minimal.",
     category: "Tips",
     categoryColor: "#10b981",
     readTime: "4 menit",
     date: "8 Mei 2026",
-    author: "Tim Raja Digital",
+    author: "Tim Legend Store",
     emoji: "💡",
     content: "article2",
   },
   "kenapa-harus-topup-di-raja-digital": {
-    title: "Kenapa Harus Top Up di Raja Digital?",
-    description: "Temukan alasan mengapa ribuan gamer Indonesia mempercayakan top-up game mereka kepada Raja Digital. Aman, cepat, dan harga terbaik.",
+    title: "Kenapa Harus Top Up di Legend Store?",
+    description: "Temukan alasan mengapa ribuan gamer Indonesia mempercayakan top-up game mereka kepada Legend Store. Aman, cepat, dan harga terbaik.",
     category: "Info",
     categoryColor: "#a78bfa",
     readTime: "2 menit",
     date: "5 Mei 2026",
-    author: "Tim Raja Digital",
+    author: "Tim Legend Store",
     emoji: "👑",
     content: "article3",
   },
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const art = ARTICLES[slug as Slug];
   if (!art) return {};
-  return { title: `${art.title} | Raja Digital`, description: art.description };
+  return { title: `${art.title} | Legend Store`, description: art.description };
 }
 
 export function generateStaticParams() {
@@ -67,18 +67,18 @@ function Article1() {
   return (
     <>
       <p style={prose}>
-        Sebagai salah satu platform top-up game terpercaya di Indonesia, <Link href="/tentang-kami" style={ilink}>Raja Digital</Link> menyediakan layanan top-up Royal Dream dengan proses yang cepat dan mudah. Berdasarkan pengalaman kami melayani lebih dari 10.000 pelanggan, panduan berikut adalah cara paling efisien untuk mengisi saldo Royal Dream kamu.
+        Sebagai salah satu platform top-up game terpercaya di Indonesia, <Link href="/tentang-kami" style={ilink}>Legend Store</Link> menyediakan layanan top-up Royal Dream dengan proses yang cepat dan mudah. Berdasarkan pengalaman kami melayani lebih dari 10.000 pelanggan, panduan berikut adalah cara paling efisien untuk mengisi saldo Royal Dream kamu.
       </p>
 
       <h2 style={h2s}>Apa Itu Royal Dream?</h2>
       <p style={prose}>
-        Royal Dream adalah game mobile populer yang membutuhkan mata uang virtual (diamond/koin) untuk membeli karakter, skin, dan item premium di dalam game. Untuk mendapatkan diamond tersebut, kamu perlu melakukan top-up melalui platform terpercaya seperti Raja Digital.
+        Royal Dream adalah game mobile populer yang membutuhkan mata uang virtual (diamond/koin) untuk membeli karakter, skin, dan item premium di dalam game. Untuk mendapatkan diamond tersebut, kamu perlu melakukan top-up melalui platform terpercaya seperti Legend Store.
       </p>
 
-      <h2 style={h2s}>Langkah-Langkah Top Up Royal Dream di Raja Digital</h2>
+      <h2 style={h2s}>Langkah-Langkah Top Up Royal Dream di Legend Store</h2>
 
       {[
-        { step: 1, title: "Buka Halaman Pricelist", desc: <>Kunjungi <Link href="/pricelist" style={ilink}>halaman pricelist</Link> Raja Digital untuk melihat daftar paket diamond Royal Dream beserta harganya. Kami menawarkan berbagai pilihan nominal mulai dari yang terkecil hingga terbesar sesuai kebutuhanmu.</> },
+        { step: 1, title: "Buka Halaman Pricelist", desc: <>Kunjungi <Link href="/pricelist" style={ilink}>halaman pricelist</Link> Legend Store untuk melihat daftar paket diamond Royal Dream beserta harganya. Kami menawarkan berbagai pilihan nominal mulai dari yang terkecil hingga terbesar sesuai kebutuhanmu.</> },
         { step: 2, title: "Pilih Nominal Diamond", desc: "Pilih paket diamond yang sesuai dengan kebutuhan dan budget kamu. Semakin besar paket yang dipilih, biasanya semakin hemat harga per diamond-nya." },
         { step: 3, title: "Hubungi Admin via WhatsApp", desc: "Setelah memilih paket, klik tombol 'Top Up Sekarang' dan kamu akan diarahkan langsung ke WhatsApp admin kami. Sebutkan ID game, server (jika ada), dan nominal yang dipilih." },
         { step: 4, title: "Lakukan Pembayaran", desc: "Admin akan memberikan total tagihan dan informasi pembayaran. Kami menerima berbagai metode pembayaran termasuk transfer bank, e-wallet, dan QRIS untuk kemudahanmu." },
@@ -106,9 +106,9 @@ function Article1() {
       <h2 style={h2s}>Berapa Lama Prosesnya?</h2>
       <p style={prose}>Berdasarkan data transaksi kami, <strong>98% top-up selesai dalam 1–5 menit</strong> setelah pembayaran dikonfirmasi. Layanan kami aktif 24 jam sehari, 7 hari seminggu — termasuk hari libur nasional. Kamu tidak perlu khawatir diamond terlambat masuk.</p>
 
-      <h2 style={h2s}>Apakah Top Up di Raja Digital Aman?</h2>
+      <h2 style={h2s}>Apakah Top Up di Legend Store Aman?</h2>
       <p style={prose}>
-        Ya, 100% aman. Raja Digital menggunakan metode top-up resmi yang tidak memerlukan akses ke akun game kamu (password, OTP, dll). Kami hanya membutuhkan <strong>ID pemain dan server game</strong>. Setiap transaksi mendapatkan nomor invoice unik yang bisa kamu <Link href="/cek-transaksi" style={ilink}>cek statusnya kapan saja</Link>.
+        Ya, 100% aman. Legend Store menggunakan metode top-up resmi yang tidak memerlukan akses ke akun game kamu (password, OTP, dll). Kami hanya membutuhkan <strong>ID pemain dan server game</strong>. Setiap transaksi mendapatkan nomor invoice unik yang bisa kamu <Link href="/cek-transaksi" style={ilink}>cek statusnya kapan saja</Link>.
       </p>
 
       <div style={warn}>
@@ -116,14 +116,14 @@ function Article1() {
           <AlertCircle size={18} style={{ color: "#ef4444", flexShrink: 0, marginTop: 1 }} />
           <div>
             <p style={{ fontWeight: 700, color: "#ef4444", marginBottom: 6, fontSize: 14 }}>⚠️ Penting!</p>
-            <p style={{ ...prose, marginBottom: 0, fontSize: 13 }}>Jangan pernah memberikan password akun game kamu kepada siapapun — termasuk admin top-up. Top-up resmi tidak memerlukan password. Raja Digital <strong>tidak pernah meminta password</strong> akun game kamu.</p>
+            <p style={{ ...prose, marginBottom: 0, fontSize: 13 }}>Jangan pernah memberikan password akun game kamu kepada siapapun — termasuk admin top-up. Top-up resmi tidak memerlukan password. Legend Store <strong>tidak pernah meminta password</strong> akun game kamu.</p>
           </div>
         </div>
       </div>
 
       <h2 style={h2s}>Kesimpulan</h2>
       <p style={prose}>
-        Top up Royal Dream di Raja Digital adalah pilihan terbaik untuk gamer Indonesia yang menginginkan proses cepat, harga kompetitif, dan keamanan terjamin. Dengan pengalaman melayani puluhan ribu transaksi, kami siap membantu kebutuhan top-up game kamu 24/7. Lihat <Link href="/pricelist" style={ilink}>daftar harga lengkap kami</Link> dan mulai top-up sekarang!
+        Top up Royal Dream di Legend Store adalah pilihan terbaik untuk gamer Indonesia yang menginginkan proses cepat, harga kompetitif, dan keamanan terjamin. Dengan pengalaman melayani puluhan ribu transaksi, kami siap membantu kebutuhan top-up game kamu 24/7. Lihat <Link href="/pricelist" style={ilink}>daftar harga lengkap kami</Link> dan mulai top-up sekarang!
       </p>
     </>
   );
@@ -134,7 +134,7 @@ function Article2() {
   return (
     <>
       <p style={prose}>
-        Sebagai gamer aktif, pengeluaran untuk top-up game bisa menjadi salah satu pos pengeluaran yang cukup besar setiap bulannya. Berdasarkan pengalaman tim Raja Digital yang telah melayani ribuan transaksi, berikut adalah 5 tips praktis yang terbukti membantu gamer berhemat saat top-up game online.
+        Sebagai gamer aktif, pengeluaran untuk top-up game bisa menjadi salah satu pos pengeluaran yang cukup besar setiap bulannya. Berdasarkan pengalaman tim Legend Store yang telah melayani ribuan transaksi, berikut adalah 5 tips praktis yang terbukti membantu gamer berhemat saat top-up game online.
       </p>
 
       <h2 style={h2s}>Mengapa Strategi Top Up Itu Penting?</h2>
@@ -154,7 +154,7 @@ function Article2() {
         {
           num: 3,
           title: "Pilih Platform Top-Up Terpercaya dengan Harga Terbaik",
-          body: <>Harga diamond di berbagai platform top-up bisa berbeda-beda. Platform seperti <Link href="/tentang-kami" style={ilink}>Raja Digital</Link> menawarkan harga lebih kompetitif karena kami beroperasi langsung tanpa perantara. Bandingkan harga sebelum membeli dan pastikan platform yang kamu pilih terpercaya.</>,
+          body: <>Harga diamond di berbagai platform top-up bisa berbeda-beda. Platform seperti <Link href="/tentang-kami" style={ilink}>Legend Store</Link> menawarkan harga lebih kompetitif karena kami beroperasi langsung tanpa perantara. Bandingkan harga sebelum membeli dan pastikan platform yang kamu pilih terpercaya.</>,
         },
         {
           num: 4,
@@ -199,12 +199,12 @@ function Article3() {
   return (
     <>
       <p style={prose}>
-        Di era digital ini, ada ratusan platform top-up game yang bisa kamu temukan secara online. Namun tidak semua platform memberikan jaminan keamanan, kecepatan, dan harga terbaik sekaligus. <Link href="/tentang-kami" style={ilink}>Raja Digital</Link> hadir sebagai solusi terpercaya bagi gamer Indonesia — dan berikut adalah alasan mengapa ribuan gamer memilih kami.
+        Di era digital ini, ada ratusan platform top-up game yang bisa kamu temukan secara online. Namun tidak semua platform memberikan jaminan keamanan, kecepatan, dan harga terbaik sekaligus. <Link href="/tentang-kami" style={ilink}>Legend Store</Link> hadir sebagai solusi terpercaya bagi gamer Indonesia — dan berikut adalah alasan mengapa ribuan gamer memilih kami.
       </p>
 
       <h2 style={h2s}>1. Harga Kompetitif & Transparan</h2>
       <p style={prose}>
-        Raja Digital menawarkan harga yang kompetitif untuk setiap paket top-up game. Tidak ada biaya tersembunyi atau biaya tambahan yang mengejutkan. Semua harga sudah tertera jelas di <Link href="/pricelist" style={ilink}>halaman pricelist kami</Link>, sehingga kamu bisa membandingkan dan memilih paket yang paling sesuai dengan budget.
+        Legend Store menawarkan harga yang kompetitif untuk setiap paket top-up game. Tidak ada biaya tersembunyi atau biaya tambahan yang mengejutkan. Semua harga sudah tertera jelas di <Link href="/pricelist" style={ilink}>halaman pricelist kami</Link>, sehingga kamu bisa membandingkan dan memilih paket yang paling sesuai dengan budget.
       </p>
       <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)", borderRadius: 12, padding: "16px 20px", marginBottom: 20 }}>
         <p style={{ fontWeight: 700, color: "var(--text-primary)", marginBottom: 10, fontSize: 14 }}>📊 Perbandingan Keunggulan</p>
@@ -222,37 +222,37 @@ function Article3() {
       </div>
 
       <h2 style={h2s}>2. Proses Instan, Tidak Perlu Menunggu Lama</h2>
-      <p style={prose}>Berbeda dengan banyak platform yang memproses top-up secara manual dengan waktu tunggu berjam-jam, Raja Digital memproses setiap transaksi secepat mungkin. Berdasarkan data kami, <strong>98% transaksi selesai dalam kurang dari 5 menit</strong>. Kamu tidak perlu mengorbankan waktu bermainmu hanya untuk menunggu top-up diproses.</p>
+      <p style={prose}>Berbeda dengan banyak platform yang memproses top-up secara manual dengan waktu tunggu berjam-jam, Legend Store memproses setiap transaksi secepat mungkin. Berdasarkan data kami, <strong>98% transaksi selesai dalam kurang dari 5 menit</strong>. Kamu tidak perlu mengorbankan waktu bermainmu hanya untuk menunggu top-up diproses.</p>
 
       <h2 style={h2s}>3. Keamanan Transaksi Terjamin</h2>
       <p style={prose}>
-        Keamanan adalah prioritas utama kami. Setiap transaksi di Raja Digital mendapatkan <strong>nomor invoice unik</strong> yang bisa kamu gunakan untuk melacak status top-up kapan saja melalui <Link href="/cek-transaksi" style={ilink}>fitur cek transaksi kami</Link>. Kami juga tidak pernah meminta password atau data sensitif akun game kamu.
+        Keamanan adalah prioritas utama kami. Setiap transaksi di Legend Store mendapatkan <strong>nomor invoice unik</strong> yang bisa kamu gunakan untuk melacak status top-up kapan saja melalui <Link href="/cek-transaksi" style={ilink}>fitur cek transaksi kami</Link>. Kami juga tidak pernah meminta password atau data sensitif akun game kamu.
       </p>
 
       <h2 style={h2s}>4. Layanan Pelanggan 24/7</h2>
-      <p style={prose}>Admin Raja Digital siap membantu kamu 24 jam sehari, 7 hari seminggu — termasuk hari libur nasional. Apapun pertanyaan atau masalah yang kamu hadapi terkait top-up, tim kami siap memberikan respons cepat melalui WhatsApp.</p>
+      <p style={prose}>Admin Legend Store siap membantu kamu 24 jam sehari, 7 hari seminggu — termasuk hari libur nasional. Apapun pertanyaan atau masalah yang kamu hadapi terkait top-up, tim kami siap memberikan respons cepat melalui WhatsApp.</p>
 
       <h2 style={h2s}>5. Dipercaya Ribuan Gamer Indonesia</h2>
-      <p style={prose}>Kepercayaan pelanggan adalah aset terbesar kami. Dengan lebih dari 10.000 pelanggan aktif dan 50.000+ transaksi sukses, Raja Digital telah membuktikan diri sebagai platform top-up yang handal. Baca pengalaman nyata pelanggan kami di halaman utama untuk melihat testimoni mereka.</p>
+      <p style={prose}>Kepercayaan pelanggan adalah aset terbesar kami. Dengan lebih dari 10.000 pelanggan aktif dan 50.000+ transaksi sukses, Legend Store telah membuktikan diri sebagai platform top-up yang handal. Baca pengalaman nyata pelanggan kami di halaman utama untuk melihat testimoni mereka.</p>
 
       <div style={tip}>
         <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
           <CheckCircle size={18} style={{ color: "#fbbf24", flexShrink: 0, marginTop: 1 }} />
           <div>
             <p style={{ fontWeight: 700, color: "var(--text-primary)", marginBottom: 6, fontSize: 14 }}>✅ Sudah Terbukti Aman & Terpercaya</p>
-            <p style={{ ...prose, marginBottom: 0, fontSize: 13 }}>Raja Digital beroperasi secara transparan dengan rekam jejak yang bisa diverifikasi. Setiap transaksi tercatat dan dapat ditelusuri melalui sistem invoice kami. Tidak ada penipuan, tidak ada janji palsu — hanya pelayanan terbaik untuk para gamer Indonesia.</p>
+            <p style={{ ...prose, marginBottom: 0, fontSize: 13 }}>Legend Store beroperasi secara transparan dengan rekam jejak yang bisa diverifikasi. Setiap transaksi tercatat dan dapat ditelusuri melalui sistem invoice kami. Tidak ada penipuan, tidak ada janji palsu — hanya pelayanan terbaik untuk para gamer Indonesia.</p>
           </div>
         </div>
       </div>
 
       <h2 style={h2s}>Bagaimana Cara Mulai Top Up?</h2>
       <p style={prose}>
-        Memulai top-up di Raja Digital sangat mudah. Kunjungi <Link href="/pricelist" style={ilink}>halaman pricelist</Link> untuk melihat pilihan game dan paket yang tersedia, pilih nominal yang sesuai, lalu ikuti <Link href="/artikel/cara-topup-royal-dream" style={ilink}>panduan top-up lengkap kami</Link>. Proses selesai dalam hitungan menit!
+        Memulai top-up di Legend Store sangat mudah. Kunjungi <Link href="/pricelist" style={ilink}>halaman pricelist</Link> untuk melihat pilihan game dan paket yang tersedia, pilih nominal yang sesuai, lalu ikuti <Link href="/artikel/cara-topup-royal-dream" style={ilink}>panduan top-up lengkap kami</Link>. Proses selesai dalam hitungan menit!
       </p>
 
       <h2 style={h2s}>Kesimpulan</h2>
       <p style={prose}>
-        Memilih platform top-up yang tepat adalah keputusan penting bagi setiap gamer. Dengan Raja Digital, kamu mendapatkan kombinasi terbaik dari harga kompetitif, kecepatan proses, keamanan transaksi, dan layanan pelanggan yang responsif. Bergabunglah dengan ribuan gamer Indonesia yang sudah mempercayai Raja Digital sebagai mitra top-up game mereka.
+        Memilih platform top-up yang tepat adalah keputusan penting bagi setiap gamer. Dengan Legend Store, kamu mendapatkan kombinasi terbaik dari harga kompetitif, kecepatan proses, keamanan transaksi, dan layanan pelanggan yang responsif. Bergabunglah dengan ribuan gamer Indonesia yang sudah mempercayai Legend Store sebagai mitra top-up game mereka.
       </p>
     </>
   );

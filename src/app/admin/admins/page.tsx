@@ -622,7 +622,7 @@ export default function AdminAdminsPage() {
                 <label className="block text-xs font-semibold mb-1.5" style={{ color: "var(--text-secondary)" }}>
                   Email <span style={{ color: "#ef4444" }}>*</span>
                 </label>
-                <input id="new-admin-email" type="email" className="input-styled" placeholder="op2@rajadigital.com"
+                <input id="new-admin-email" type="email" className="input-styled" placeholder="op2@legendstore.com"
                   value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
               </div>
               <div>

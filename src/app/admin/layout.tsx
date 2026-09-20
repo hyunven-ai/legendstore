@@ -56,7 +56,7 @@ const navItems = [
     label: "Transaksi",
     icon: ShoppingCart,
     subItems: [
-      { href: "/admin/transactions",         label: "Transaksi Masuk",   permKey: "transactions" as PermKey },
+      { href: "/admin/transactions", label: "Transaksi Masuk", permKey: "transactions" as PermKey },
       { href: "/admin/transactions/history", label: "History Transaksi", permKey: "transactions_history" as PermKey },
     ],
   },
@@ -64,16 +64,16 @@ const navItems = [
     label: "Bongkar Chip",
     icon: Zap,
     subItems: [
-      { href: "/admin/bongkar",         label: "Bongkar Chip Masuk",   permKey: "bongkar_chip" as PermKey },
+      { href: "/admin/bongkar", label: "Bongkar Chip Masuk", permKey: "bongkar_chip" as PermKey },
       { href: "/admin/bongkar/history", label: "History Bongkar Chip", permKey: "bongkar_chip_history" as PermKey },
     ],
   },
-  { href: "/admin/products", label: "Produk",       icon: Package,   permKey: "products" as PermKey },
-  { href: "/admin/banners",  label: "Banner",        icon: ImageIcon, permKey: "banners" as PermKey },
-  { href: "/admin/gallery",  label: "Gallery",       icon: Images,    permKey: "gallery" as PermKey },
-  { href: "/admin/games",    label: "Kelola Game",   icon: Gamepad2,  permKey: "games" as PermKey },
-  { href: "/admin/settings", label: "Pengaturan",   icon: Settings,  permKey: "settings" as PermKey },
-  { href: "/admin/admins",   label: "Kelola Admin",  icon: Users,     permKey: "admins" as PermKey },
+  { href: "/admin/products", label: "Produk", icon: Package, permKey: "products" as PermKey },
+  { href: "/admin/banners", label: "Banner", icon: ImageIcon, permKey: "banners" as PermKey },
+  { href: "/admin/gallery", label: "Gallery", icon: Images, permKey: "gallery" as PermKey },
+  { href: "/admin/games", label: "Kelola Game", icon: Gamepad2, permKey: "games" as PermKey },
+  { href: "/admin/settings", label: "Pengaturan", icon: Settings, permKey: "settings" as PermKey },
+  { href: "/admin/admins", label: "Kelola Admin", icon: Users, permKey: "admins" as PermKey },
 ];
 
 // Cek apakah user punya akses ke permKey tertentu ─────────────────────────────
@@ -90,14 +90,14 @@ function hasAccess(
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router   = useRouter();
+  const router = useRouter();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [adminName,   setAdminName]   = useState("Admin");
-  const [adminRole,   setAdminRole]   = useState("");
+  const [adminName, setAdminName] = useState("Admin");
+  const [adminRole, setAdminRole] = useState("");
   const [isSuperadmin, setIsSuperadmin] = useState(false);
-  const [permissions,  setPermissions]  = useState<string[] | null>(null);
-  const [permReady,    setPermReady]    = useState(false); // guard: jangan render sampai perm loaded
+  const [permissions, setPermissions] = useState<string[] | null>(null);
+  const [permReady, setPermReady] = useState(false); // guard: jangan render sampai perm loaded
 
   useEffect(() => {
     if (pathname === "/admin" || pathname === "/admin/login") return;
@@ -107,9 +107,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     // Baca dari localStorage
     const storedDisplayName = localStorage.getItem("admin_display_name");
-    const storedUsername    = localStorage.getItem("admin_username");
-    const storedRole        = localStorage.getItem("admin_role") ?? "";
-    const storedPermsRaw    = localStorage.getItem("admin_permissions");
+    const storedUsername = localStorage.getItem("admin_username");
+    const storedRole = localStorage.getItem("admin_role") ?? "";
+    const storedPermsRaw = localStorage.getItem("admin_permissions");
 
     setAdminRole(storedRole);
     const isSA = storedRole.toLowerCase() === "superadmin";
@@ -216,16 +216,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="flex min-h-screen" style={{ background: "var(--bg-primary)" }}>
       {/* Sidebar */}
       <aside
-        className={`admin-sidebar fixed inset-y-0 left-0 z-40 transition-transform duration-300 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        className={`admin-sidebar fixed inset-y-0 left-0 z-40 transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0`}
       >
         {/* Logo */}
         <div className="px-6 py-5" style={{ borderBottom: "1px solid var(--border)" }}>
           <Link href="/admin/dashboard" className="flex items-center gap-2">
             <Image
-              src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778049885/logo-raja-digital-webp_hwu82q.webp"
-              alt="RAJA DIGITAL"
+              src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1789888684/logo-crop_wgthak.webp"
+              alt="LEGEND STORE"
               width={130}
               height={44}
               className="object-contain"

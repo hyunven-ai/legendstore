@@ -15,6 +15,7 @@ import BannerCarousel from "@/components/BannerCarousel";
 import ReviewCarousel from "@/components/ReviewCarousel";
 import RunningText from "@/components/RunningText";
 import GamesGrid from "@/components/GamesGrid";
+import LeaderboardPreview from "@/components/LeaderboardPreview";
 import { createServerSupabase } from "@/lib/supabase";
 import type { Game } from "@/lib/games";
 
@@ -86,21 +87,35 @@ export default async function HomePage() {
       {/* ── Game Catalog ─────────────────────────────── */}
       <section
         id="games"
-        className="max-w-6xl mx-auto px-4"
-        style={{ contain: "layout", paddingTop: "20px", paddingBottom: "20px" }}
+        className="max-w-6xl mx-auto px-4 relative"
+        style={{ contain: "layout", paddingTop: "40px", paddingBottom: "60px" }}
       >
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2
-              className="text-2xl font-black"
-              style={{ fontFamily: "var(--font-outfit)", color: "var(--text-primary)" }}
-            >
-              Pilih <span className="gradient-text-gold">Game</span>
-            </h2>
-            <p className="text-sm mt-1" style={{ color: "var(--text-muted)" }}>
-              {games.length > 0 ? `${games.length} game tersedia` : ""}
-            </p>
+        {/* Ambient Glow background for the grid */}
+        <div
+          aria-hidden="true"
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse, rgba(200,150,26,0.08) 0%, rgba(0,0,0,0) 60%)",
+            zIndex: -1,
+          }}
+        />
+
+        <div className="flex flex-col items-center justify-center text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 border border-[rgba(200,150,26,0.3)] bg-[rgba(200,150,26,0.05)]">
+            <Zap size={14} className="text-[var(--gold-light)]" />
+            <span className="text-xs font-bold text-[var(--gold-light)] uppercase tracking-widest">
+              Katalog Premium
+            </span>
           </div>
+          <h2
+            className="text-3xl md:text-4xl font-black mb-3"
+            style={{ fontFamily: "var(--font-outfit)", color: "#ffffff" }}
+          >
+            Pilih <span className="gradient-text-gold drop-shadow-[0_0_15px_rgba(200,150,26,0.5)]">Game</span>
+          </h2>
+          <p className="text-[15px] max-w-md mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>
+            {games.length > 0 ? `Temukan dan top up dari ${games.length} game favorit Anda dengan harga terbaik.` : "Memuat daftar game..."}
+          </p>
         </div>
 
         {/*
@@ -115,20 +130,22 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── Leaderboard Preview ────────────────────── */}
+      <LeaderboardPreview />
+
       {/* ── Ulasan Pelanggan ───────────────────────── */}
       <ReviewCarousel />
 
       {/* ── Keunggulan Kami ───────────────────────────────── */}
       <section
         style={{
-          background: "var(--bg-primary)",
-          paddingTop: "60px",
-          paddingBottom: "0px",
+          paddingTop: "70px",
+          paddingBottom: "30px",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* Background glow effects */}
+        {/* Subtle Luxury Ambient Glow */}
         <div
           aria-hidden="true"
           style={{
@@ -136,9 +153,9 @@ export default async function HomePage() {
             top: "10%",
             left: "50%",
             transform: "translateX(-50%)",
-            width: "600px",
-            height: "300px",
-            background: "radial-gradient(ellipse, rgba(37,99,235,0.15) 0%, transparent 70%)",
+            width: "700px",
+            height: "350px",
+            background: "radial-gradient(ellipse, rgba(200,150,26,0.12) 0%, rgba(99,102,241,0.06) 50%, transparent 75%)",
             pointerEvents: "none",
           }}
         />
@@ -152,18 +169,18 @@ export default async function HomePage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "6px",
-                border: "1px solid rgba(37,99,235,0.5)",
+                border: "1px solid rgba(245,200,66,0.3)",
                 borderRadius: "999px",
                 padding: "6px 18px",
                 fontSize: "12px",
-                fontWeight: 600,
-                color: "#93c5fd",
-                background: "rgba(37,99,235,0.1)",
+                fontWeight: 700,
+                color: "var(--gold-light)",
+                background: "rgba(245,200,66,0.08)",
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
               }}
             >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
               Keunggulan Kami
@@ -172,54 +189,52 @@ export default async function HomePage() {
 
           {/* Heading */}
           <h2
-            className="text-center font-black"
+            className="text-center font-black tracking-tight"
             style={{
               fontFamily: "var(--font-outfit)",
-              fontSize: "clamp(2rem, 5vw, 3rem)",
+              fontSize: "clamp(2rem, 5vw, 2.75rem)",
               color: "#ffffff",
-              lineHeight: 1.15,
+              lineHeight: 1.2,
               marginBottom: "16px",
             }}
           >
-            Kenapa{" "}
-            <span style={{ color: "#f5c842" }}>Harus</span>
-            {" "}Pilih Kami?
+            Kenapa Harus Pilih{" "}
+            <span className="gradient-text-gold">Legend Store?</span>
           </h2>
 
           {/* Subtitle */}
           <p
             className="text-center"
             style={{
-              color: "rgba(255,255,255,0.55)",
+              color: "rgba(255,255,255,0.6)",
               fontSize: "15px",
-              maxWidth: "480px",
+              maxWidth: "520px",
               margin: "0 auto 48px",
               lineHeight: 1.7,
             }}
           >
-            Kami hadir dengan layanan terbaik untuk pengalaman transaksi yang{" "}
-            <span style={{ color: "#f59e0b" }}>aman</span>,{" "}
-            <span style={{ color: "#f59e0b" }}>cepat</span>, dan{" "}
-            <span style={{ color: "#f59e0b" }}>memuaskan</span>.
+            Layanan top-up terpercaya dengan sistem otomatis 24 jam nonstop untuk pengalaman transaksi yang aman, instan, dan bergaransi.
           </p>
 
           {/* Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             {/* Card 1 — 100% Aman */}
-            <div className="feature-card">
+            <div className="feature-card group cursor-pointer">
               <div
+                className="transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-1 group-hover:shadow-[0_0_20px_rgba(200,150,26,0.4)]"
                 style={{
-                  width: "60px",
-                  height: "60px",
-                  borderRadius: "14px",
-                  background: "rgba(37,99,235,0.18)",
+                  width: "56px",
+                  height: "56px",
+                  borderRadius: "16px",
+                  background: "linear-gradient(135deg, rgba(200,150,26,0.18), rgba(200,150,26,0.05))",
+                  border: "1px solid rgba(200,150,26,0.25)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   margin: "0 auto 20px",
                 }}
               >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   <polyline points="9 12 11 14 15 10" />
                 </svg>
@@ -230,31 +245,33 @@ export default async function HomePage() {
                   fontWeight: 800,
                   fontSize: "18px",
                   color: "#ffffff",
-                  marginBottom: "12px",
+                  marginBottom: "10px",
                 }}
               >
-                100% Aman &amp; Terpercaya
+                100% Aman &amp; Bergaransi
               </h3>
-              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", lineHeight: 1.7 }}>
-                Transaksi terjamin aman dengan sistem keamanan berlapis dan pembayaran terlindungi.
+              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "13.5px", lineHeight: 1.7 }}>
+                Transaksi terjamin legal dan aman tanpa pernah meminta password akun game Anda.
               </p>
             </div>
 
             {/* Card 2 — Proses Cepat */}
-            <div className="feature-card">
+            <div className="feature-card group cursor-pointer">
               <div
+                className="transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-1 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
                 style={{
-                  width: "60px",
-                  height: "60px",
-                  borderRadius: "14px",
-                  background: "rgba(37,99,235,0.18)",
+                  width: "56px",
+                  height: "56px",
+                  borderRadius: "16px",
+                  background: "linear-gradient(135deg, rgba(16,185,129,0.18), rgba(16,185,129,0.05))",
+                  border: "1px solid rgba(16,185,129,0.25)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   margin: "0 auto 20px",
                 }}
               >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
@@ -265,31 +282,33 @@ export default async function HomePage() {
                   fontWeight: 800,
                   fontSize: "18px",
                   color: "#ffffff",
-                  marginBottom: "12px",
+                  marginBottom: "10px",
                 }}
               >
-                Proses Cepat &amp; Instan
+                Proses Instan Hitungan Detik
               </h3>
-              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", lineHeight: 1.7 }}>
-                Topup otomatis dalam hitungan detik, kapan saja, 24 jam nonstop.
+              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "13.5px", lineHeight: 1.7 }}>
+                Sistem otomatis memproses pesanan langsung masuk setelah pembayaran berhasil.
               </p>
             </div>
 
             {/* Card 3 — Harga Terbaik */}
-            <div className="feature-card">
+            <div className="feature-card group cursor-pointer">
               <div
+                className="transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-1 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]"
                 style={{
-                  width: "60px",
-                  height: "60px",
-                  borderRadius: "14px",
-                  background: "rgba(37,99,235,0.18)",
+                  width: "56px",
+                  height: "56px",
+                  borderRadius: "16px",
+                  background: "linear-gradient(135deg, rgba(99,102,241,0.18), rgba(99,102,241,0.05))",
+                  border: "1px solid rgba(99,102,241,0.25)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   margin: "0 auto 20px",
                 }}
               >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
                   <line x1="7" y1="7" x2="7.01" y2="7" />
                 </svg>
@@ -300,36 +319,35 @@ export default async function HomePage() {
                   fontWeight: 800,
                   fontSize: "18px",
                   color: "#ffffff",
-                  marginBottom: "12px",
+                  marginBottom: "10px",
                 }}
               >
-                Harga Terbaik &amp; Kompetitif
+                Harga Murah &amp; Transparan
               </h3>
-              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", lineHeight: 1.7 }}>
-                Dapatkan harga paling murah untuk semua game favorit Anda.
+              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "13.5px", lineHeight: 1.7 }}>
+                Dapatkan penawaran harga terbaik di kelasnya tanpa potongan tersembunyi.
               </p>
             </div>
           </div>
 
           {/* Trust footer */}
-          <div className="flex justify-center">
+          <div className="flex justify-center pb-8">
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                color: "rgba(255,255,255,0.45)",
+                color: "rgba(255,255,255,0.5)",
                 fontSize: "13px",
               }}
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 <polyline points="9 12 11 14 15 10" />
               </svg>
-              Ribuan pelanggan puas telah membuktikannya!
+              Dipercaya oleh ribuan pemain di seluruh Indonesia
             </div>
           </div>
-
         </div>
       </section>
     </div>

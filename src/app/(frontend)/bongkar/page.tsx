@@ -52,7 +52,7 @@ export default function BongkarChipPage() {
   // Load cached form data on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const cached = localStorage.getItem("rajadigital_bongkar_form");
+      const cached = localStorage.getItem("legendstore_bongkar_form");
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
@@ -74,7 +74,7 @@ export default function BongkarChipPage() {
   // Save to localStorage when form changes
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem("rajadigital_bongkar_form", JSON.stringify({
+      localStorage.setItem("legendstore_bongkar_form", JSON.stringify({
         player_id: form.player_id,
         bank: form.bank,
         nomor_rekening: form.nomor_rekening,
@@ -160,7 +160,7 @@ export default function BongkarChipPage() {
         const waData = await waRes.json();
         if (waData?.number) {
           const msg =
-            `🎰 *REQUEST BONGKAR CHIP - RAJA DIGITAL* 🎰
+            `🎰 *REQUEST BONGKAR CHIP - LEGEND STORE* 🎰
 
 🧾 Invoice ID: *${invoiceId}*
 🎮 Game: *${form.game_name}*
@@ -267,7 +267,7 @@ Mohon proses request bongkar chip saya. Terima kasih! 🙏`;
           WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           marginBottom: "6px",
         }}>
-          RAJA DIGITAL
+          LEGEND STORE
         </h1>
         <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", letterSpacing: "0.1em" }}>
           🚀 PUSH YOUR LIMITS, PLAY HARDER 🚀
