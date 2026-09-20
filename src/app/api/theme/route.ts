@@ -72,8 +72,25 @@ export async function GET() {
       const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
       const { data } = await sb.from("site_theme").select("*").eq("id", 1).maybeSingle();
       if (data) {
-        const { id: dbId, theme_id, ...rest } = data;
-        return NextResponse.json({ theme: { ...DEFAULT_THEME, ...localData, ...rest, id: theme_id } }, noStore);
+        return NextResponse.json({
+          theme: {
+            ...DEFAULT_THEME,
+            ...localData,
+            id: data.theme_id || data.id,
+            name: data.name,
+            gold: data.gold,
+            goldDark: data.golddark ?? data.goldDark,
+            goldLight: data.goldlight ?? data.goldLight,
+            purple: data.purple,
+            purpleDark: data.purpledark ?? data.purpleDark,
+            purpleLight: data.purplelight ?? data.purpleLight,
+            amber: data.amber,
+            amberLight: data.amberlight ?? data.amberLight,
+            bgPrimaryDark: data.bgprimarydark ?? data.bgPrimaryDark,
+            bgSecondaryDark: data.bgsecondarydark ?? data.bgSecondaryDark,
+            bgCardDark: data.bgcarddark ?? data.bgCardDark,
+          }
+        }, noStore);
       }
     } catch { /* fall through */ }
   }
@@ -90,14 +107,25 @@ export async function POST(req: Request) {
         const { createClient } = await import("@supabase/supabase-js");
         const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
         
-        const { id: themeIdentifier, ...themeData } = theme;
-        // Pastikan menyimpan dengan id: 1 untuk Supabase, dan theme_id untuk string identifier
-        const { error } = await sb.from("site_theme").upsert({ 
-          id: 1, 
-          theme_id: themeIdentifier, 
-          ...themeData, 
-          updated_at: new Date().toISOString() 
-        });
+        const dbPayload = {
+          id: 1,
+          theme_id: theme.id,
+          name: theme.name,
+          gold: theme.gold,
+          golddark: theme.goldDark,
+          goldlight: theme.goldLight,
+          purple: theme.purple,
+          purpledark: theme.purpleDark,
+          purplelight: theme.purpleLight,
+          amber: theme.amber,
+          amberlight: theme.amberLight,
+          bgprimarydark: theme.bgPrimaryDark,
+          bgsecondarydark: theme.bgSecondaryDark,
+          bgcarddark: theme.bgCardDark,
+          updated_at: new Date().toISOString()
+        };
+
+        const { error } = await sb.from("site_theme").upsert(dbPayload);
         
         if (error) {
           console.warn("[THEME POST] Supabase upsert failed (maybe table missing?):", error.message);
