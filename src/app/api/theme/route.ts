@@ -58,16 +58,61 @@ function writeFile(data: ColorTheme) {
   }
 }
 
+function isSupabaseConfigured(): boolean {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+  return url.startsWith("https://") && !url.includes("your-project") && key.length > 20 && !key.includes("your-service");
+}
+
 export async function GET() {
-  return NextResponse.json({ theme: readFile() }, noStore);
+  const localData = readFile();
+  if (isSupabaseConfigured()) {
+    try {
+      const { createClient } = await import("@supabase/supabase-js");
+      const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+      const { data } = await sb.from("site_theme").select("*").eq("id", 1).maybeSingle();
+      if (data) {
+        const { id: dbId, theme_id, ...rest } = data;
+        return NextResponse.json({ theme: { ...DEFAULT_THEME, ...localData, ...rest, id: theme_id } }, noStore);
+      }
+    } catch { /* fall through */ }
+  }
+  return NextResponse.json({ theme: localData }, noStore);
 }
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const theme: ColorTheme = { ...DEFAULT_THEME, ...body.theme };
+
+    if (isSupabaseConfigured()) {
+      try {
+        const { id: themeIdentifier, ...themeData } = theme;
+        // Pastikan menyimpan dengan id: 1 untuk Supabase, dan theme_id untuk string identifier
+        const { error } = await sb.from("site_theme").upsert({ 
+          id: 1, 
+          theme_id: themeIdentifier, 
+          ...themeData, 
+          updated_at: new Date().toISOString() 
+        });
+        
+        if (error) {
+          console.warn("[THEME POST] Supabase upsert failed (maybe table missing?):", error.message);
+          writeFile(theme);
+          return NextResponse.json({ ok: true, storage: "file", warning: "Supabase table 'site_theme' missing. Saved locally." });
+        }
+        
+        writeFile(theme);
+        return NextResponse.json({ ok: true, storage: "supabase" });
+      } catch (err) {
+        console.error("[THEME POST error]", err);
+        writeFile(theme);
+        return NextResponse.json({ ok: true, storage: "file", warning: "Supabase error. Saved locally." });
+      }
+    }
+
     writeFile(theme);
-    return NextResponse.json({ ok: true, theme });
+    return NextResponse.json({ ok: true, storage: "file" });
   } catch (err) {
     return NextResponse.json({ ok: false, error: String(err) }, { status: 500 });
   }
