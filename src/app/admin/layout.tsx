@@ -223,7 +223,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="px-6 py-5" style={{ borderBottom: "1px solid var(--border)" }}>
           <Link href="/admin/dashboard" className="flex items-center gap-2">
             <Image
-              src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1789888684/logo-crop_wgthak.webp"
+              src="https://legend.gambarku.my.id/gallery/general/1790002199198-logo2.webp"
               alt="LEGEND STORE"
               width={130}
               height={44}

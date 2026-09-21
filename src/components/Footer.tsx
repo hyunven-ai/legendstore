@@ -19,7 +19,7 @@ export default function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <Image
-                src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1789888684/logo-crop_wgthak.webp"
+                src="https://legend.gambarku.my.id/gallery/general/1790002199198-logo2.webp"
                 alt="LEGEND STORE"
                 width={160}
                 height={56}

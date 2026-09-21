@@ -14,9 +14,9 @@ export async function PATCH(
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (err) {
+  } catch (err: any) {
     console.error("Update product error:", err);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: err.message || JSON.stringify(err) }, { status: 500 });
   }
 }
 

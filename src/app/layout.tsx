@@ -27,7 +27,7 @@ async function fetchSiteSettings() {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
     const isConfigured = url.startsWith("https://") && !url.includes("your-project") && key.length > 20 && !key.includes("your-service");
-    
+
     if (isConfigured) {
       const { createClient } = await import("@supabase/supabase-js");
       const sb = createClient(url, key);
@@ -43,17 +43,17 @@ async function fetchSiteSettings() {
 export async function generateMetadata(): Promise<Metadata> {
   const s = await fetchSiteSettings();
 
-  const title       = s?.meta_title       || DEFAULT_META.title;
+  const title = s?.meta_title || DEFAULT_META.title;
   const description = s?.meta_description || DEFAULT_META.description;
-  const keywords    = s?.meta_keywords    || DEFAULT_META.keywords;
+  const keywords = s?.meta_keywords || DEFAULT_META.keywords;
 
   return {
     title,
     description,
     keywords,
     icons: {
-      icon: "https://res.cloudinary.com/dzojrrwtr/image/upload/v1778050105/icon-raja-digital-webp_pstu3k.webp",
-      apple: "https://res.cloudinary.com/dzojrrwtr/image/upload/v1778050105/icon-raja-digital-webp_pstu3k.webp",
+      icon: "https://legend.gambarku.my.id/gallery/general/1790004288692-icon.png",
+      apple: "https://legend.gambarku.my.id/gallery/general/1790004288692-icon.png",
     },
     openGraph: {
       title,
@@ -72,8 +72,8 @@ export default async function RootLayout({
   const s = await fetchSiteSettings();
 
   // Extract scripts (strip if empty)
-  const gaScript     = s?.ga_script?.trim()     || "";
-  const pixelScript  = s?.pixel_script?.trim()  || "";
+  const gaScript = s?.ga_script?.trim() || "";
+  const pixelScript = s?.pixel_script?.trim() || "";
   const widgetScript = s?.widget_script?.trim() || "";
 
   return (
